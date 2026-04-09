@@ -1,0 +1,30 @@
+# Peace Solar & Window Cleaning
+# https://peace-services.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://peace-services.com/sitemap.xml
+
+# Allow all major search engine and AI crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /

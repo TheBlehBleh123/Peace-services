@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import {
   Check, X, Star, ArrowRight, Sun, Wind, Snowflake,
   ShieldCheck, Users, Heart, Menu, Phone, XIcon,
@@ -399,17 +400,19 @@ const ReviewMarquee = ({reviews,reverse=false}) => (
 );
 
 /* ═══ SERVICE CARD — Ken Burns continuous zoom ═══ */
+const SERVICE_SLUGS = { "Window Cleaning": "window-cleaning", "Solar Cleaning": "solar-panel-cleaning", "Bird Proofing": "bird-proofing", "Holiday Lighting": "holiday-lighting" };
 const ServiceCard = ({service,index}) => {
   const ref = useFadeIn(index*.12);
+  const slug = SERVICE_SLUGS[service.title] || "";
   return (
-    <div ref={ref} className="fade-in-up svc-card" style={{position:"relative",height:420,borderRadius:24,overflow:"hidden",cursor:"pointer"}}>
-      <img src={service.img} alt={service.title} referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+    <Link to={`/services/${slug}`} ref={ref} className="fade-in-up svc-card" style={{position:"relative",height:420,borderRadius:24,overflow:"hidden",cursor:"pointer",textDecoration:"none",display:"block"}}>
+      <img src={service.img} alt={`${service.title} services in Coachella Valley`} referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
       <div style={{position:"absolute",inset:0,background:"linear-gradient(to top, rgba(61,75,101,.85) 0%, transparent 55%)"}}/>
       <div style={{position:"absolute",bottom:28,left:28,color:C.cream}}>
         <div style={{opacity:.7,marginBottom:8}}>{service.icon}</div>
         <h4 style={{fontFamily:fontSerif,fontSize:22,fontWeight:400}}>{service.title}</h4>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -720,7 +723,7 @@ export default function App() {
           width:"100%",overflow:"hidden",
           borderRadius:0,
         }}>
-          <img src={IMG.hero} alt="Peace Solar & Window Cleaning" referrerPolicy="no-referrer" className="hero-photo"
+          <img src={IMG.hero} alt="Professional solar panel and window cleaning team in Coachella Valley, California" referrerPolicy="no-referrer" className="hero-photo"
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 85%",display:"block",
               transform:`translateY(${heroDrift}px) scale(${1 + heroDrift * 0.001})`,transition:"transform .1s linear"}}/>
           
@@ -861,7 +864,7 @@ export default function App() {
             <div className="story-grid" style={{maxWidth:1200,margin:"0 auto"}}>
               <FadeIn>
                 <div style={{borderRadius:28,overflow:"hidden",aspectRatio:"4/5"}}>
-                  <img src={IMG.story} alt="Founders Jack and Ben" referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+                  <img src={IMG.story} alt="Peace Solar & Window Cleaning founders Jack and Ben in the Coachella Valley" referrerPolicy="no-referrer" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                 </div>
               </FadeIn>
               <FadeIn delay={.2}>
@@ -879,15 +882,43 @@ export default function App() {
           </section>
 
           {/* ═══ FOOTER ═══ */}
-          <footer style={{padding:"48px 24px",borderTop:`1px solid ${C.navy}12`,background:C.cream}}>
-            <div className="footer-row" style={{maxWidth:1200,margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:24}}>
-              <a href="#" style={{lineHeight:0}}><img src={IMG.logo} alt="Peace Logo" referrerPolicy="no-referrer" style={{height:70,width:"auto"}}/></a>
-              <span style={{fontFamily:fontDisplay,fontSize:10,letterSpacing:".2em",textTransform:"uppercase",opacity:.35}}>© 2026 Peace Solar & Window Cleaning. Coachella Valley, CA.</span>
-              <div style={{display:"flex",gap:28}}>
-                {["Instagram","Facebook"].map(s=>(
-                  <a key={s} href="#" style={{fontFamily:fontDisplay,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.navy,textDecoration:"none",transition:"color .3s"}}
-                    onMouseEnter={e=>e.target.style.color=C.sage} onMouseLeave={e=>e.target.style.color=C.navy}>{s}</a>
-                ))}
+          <footer style={{padding:"64px 24px 48px",borderTop:`1px solid ${C.navy}12`,background:C.cream}}>
+            <div style={{maxWidth:1200,margin:"0 auto"}}>
+              <div className="footer-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))",gap:40,marginBottom:48}}>
+                <div>
+                  <h4 style={{fontFamily:fontDisplay,fontSize:11,letterSpacing:".18em",textTransform:"uppercase",marginBottom:16,fontWeight:700}}>Services</h4>
+                  {[["window-cleaning","Window Cleaning"],["solar-panel-cleaning","Solar Panel Cleaning"],["bird-proofing","Bird Proofing"],["holiday-lighting","Holiday Lighting"]].map(([slug,name])=>(
+                    <Link key={slug} to={`/services/${slug}`} style={{display:"block",fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,textDecoration:"none",marginBottom:10,fontWeight:500}}>{name}</Link>
+                  ))}
+                </div>
+                <div>
+                  <h4 style={{fontFamily:fontDisplay,fontSize:11,letterSpacing:".18em",textTransform:"uppercase",marginBottom:16,fontWeight:700}}>Areas We Serve</h4>
+                  {[["palm-desert","Palm Desert"],["la-quinta","La Quinta"],["indio","Indio"],["rancho-mirage","Rancho Mirage"],["cathedral-city","Cathedral City"],["coachella","Coachella"],["indian-wells","Indian Wells"],["bermuda-dunes","Bermuda Dunes"]].map(([slug,name])=>(
+                    <Link key={slug} to={`/areas/${slug}`} style={{display:"block",fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,textDecoration:"none",marginBottom:10,fontWeight:500}}>{name}</Link>
+                  ))}
+                </div>
+                <div>
+                  <h4 style={{fontFamily:fontDisplay,fontSize:11,letterSpacing:".18em",textTransform:"uppercase",marginBottom:16,fontWeight:700}}>Company</h4>
+                  <a href="#story" style={{display:"block",fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,textDecoration:"none",marginBottom:10,fontWeight:500}}>About Us</a>
+                  <a href="#plans" style={{display:"block",fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,textDecoration:"none",marginBottom:10,fontWeight:500}}>Pricing</a>
+                </div>
+                <div>
+                  <h4 style={{fontFamily:fontDisplay,fontSize:11,letterSpacing:".18em",textTransform:"uppercase",marginBottom:16,fontWeight:700}}>Contact</h4>
+                  <a href="tel:7602995187" style={{display:"flex",alignItems:"center",gap:8,fontFamily:fontSans,fontSize:14,color:C.navy,textDecoration:"none",marginBottom:10,fontWeight:600}}>
+                    <Phone size={14}/> (760) 299-5187
+                  </a>
+                  <p style={{fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,fontWeight:500,lineHeight:1.6}}>Serving the entire Coachella Valley, CA</p>
+                </div>
+              </div>
+              <div style={{borderTop:`1px solid ${C.navy}10`,paddingTop:24,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:16}}>
+                <a href="#" style={{lineHeight:0}}><img src={IMG.logo} alt="Peace Logo" referrerPolicy="no-referrer" style={{height:50,width:"auto"}}/></a>
+                <span style={{fontFamily:fontDisplay,fontSize:10,letterSpacing:".2em",textTransform:"uppercase",opacity:.35}}>© 2026 Peace Solar & Window Cleaning. Coachella Valley, CA.</span>
+                <div style={{display:"flex",gap:28}}>
+                  {["Instagram","Facebook"].map(s=>(
+                    <a key={s} href="#" style={{fontFamily:fontDisplay,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.navy,textDecoration:"none",transition:"color .3s"}}
+                      onMouseEnter={e=>e.target.style.color=C.sage} onMouseLeave={e=>e.target.style.color=C.navy}>{s}</a>
+                  ))}
+                </div>
               </div>
             </div>
           </footer>
