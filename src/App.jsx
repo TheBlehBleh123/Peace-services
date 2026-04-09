@@ -327,7 +327,7 @@ const Navbar = () => {
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",maxWidth:1400,margin:"0 auto",padding:"0 20px 0 4px"}}>
         <a href="#" style={{lineHeight:0,marginLeft:0}}>
           <img src={IMG.logo} alt="Peace Solar & Window Cleaning" referrerPolicy="no-referrer" className="nav-logo"
-            style={{height:160 - scrollProgress * 60,width:"auto",transition:"height .15s linear",display:"block"}}/>
+            style={{height:80 - scrollProgress * 20,width:"auto",transition:"height .15s linear",display:"block"}}/>
         </a>
         <div className="desk-only" style={{display:"flex",alignItems:"center",gap:36}}>
           {[["services","Services"],["plans","Plans"],["story","Our Story"]].map(([id,label])=>(
