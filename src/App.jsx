@@ -680,7 +680,7 @@ export default function App() {
   const reviewsRow2 = reviews.slice(halfReviews);
 
   return (
-    <div style={{minHeight:"100vh",background:C.cream,color:C.navy,fontFamily:fontSans}}>
+    <div style={{minHeight:"100vh",overflowX:"hidden",background:C.cream,color:C.navy,fontFamily:fontSans}}>
       <GlobalStyles/><Grain/><Navbar/>
 
       {/* ═══ 1 · HERO TEXT ═══ */}
@@ -881,7 +881,7 @@ export default function App() {
           {/* ═══ FOOTER ═══ */}
           <footer style={{padding:"48px 24px",borderTop:`1px solid ${C.navy}12`,background:C.cream}}>
             <div className="footer-row" style={{maxWidth:1200,margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:24}}>
-              <a href="#" style={{lineHeight:0}}><img src={IMG.logo} alt="Peace Logo" referrerPolicy="no-referrer" style={{height:180,width:"auto"}}/></a>
+              <a href="#" style={{lineHeight:0}}><img src={IMG.logo} alt="Peace Logo" referrerPolicy="no-referrer" style={{height:70,width:"auto"}}/></a>
               <span style={{fontFamily:fontDisplay,fontSize:10,letterSpacing:".2em",textTransform:"uppercase",opacity:.35}}>© 2026 Peace Solar & Window Cleaning. Coachella Valley, CA.</span>
               <div style={{display:"flex",gap:28}}>
                 {["Instagram","Facebook"].map(s=>(
