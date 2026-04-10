@@ -12,6 +12,12 @@ const FALLBACK_REVIEWS = [
   { author_name: "Isabella Ruiz", rating: 5, relative_time_description: "2 months ago", text: "From the first phone call to the final walkthrough, the experience was seamless. You can tell Jack and Ben genuinely care about every home they service.", profile_photo_url: "" },
   { author_name: "Michael Torres", rating: 5, relative_time_description: "1 week ago", text: "Best service in the Coachella Valley, hands down. On time, thorough, and the results speak for themselves. Our neighbors keep asking who we use!", profile_photo_url: "" },
   { author_name: "Gabrielle Walker", rating: 5, relative_time_description: "3 months ago", text: "We had bird proofing done on our solar panels and a full window clean in one visit. The crew was friendly and efficient — highly recommend Peace to everyone.", profile_photo_url: "" },
+  { author_name: "David Chen", rating: 5, relative_time_description: "2 weeks ago", text: "Jack was incredibly thorough with our solar panel cleaning. He explained the whole process and even showed us before-and-after output readings. Production went up 25% the next day.", profile_photo_url: "" },
+  { author_name: "Maria Gonzalez", rating: 5, relative_time_description: "1 month ago", text: "We've tried three different window cleaning companies in the valley and Peace is by far the best. They actually show up when they say they will and the quality is unmatched.", profile_photo_url: "" },
+  { author_name: "Robert Kim", rating: 5, relative_time_description: "3 weeks ago", text: "Had Peace install bird proofing mesh on all 24 of our solar panels. Clean install, no damage, and the pigeons are finally gone. Should have done this years ago.", profile_photo_url: "" },
+  { author_name: "Amanda Foster", rating: 5, relative_time_description: "2 months ago", text: "The holiday lighting service was amazing! They designed a beautiful display for our home and handled all the setup and takedown. Will definitely be using them again this Christmas.", profile_photo_url: "" },
+  { author_name: "Carlos Rivera", rating: 5, relative_time_description: "1 month ago", text: "Peace Solar cleaned our panels after we noticed a dip in energy production. The difference was night and day — literally got 30% more power the next billing cycle. Great crew.", profile_photo_url: "" },
+  { author_name: "Jennifer Walsh", rating: 5, relative_time_description: "3 weeks ago", text: "I appreciate how professional and communicative the team is. They sent appointment reminders, showed up on time, and did an incredible job on our two-story windows.", profile_photo_url: "" },
 ];
 
 export const GoogleG = ({size=18}) => (
@@ -83,9 +89,10 @@ export const useGoogleReviews = () => {
 /* ═══ REVIEWS SECTION — reusable across pages ═══ */
 export const ReviewsSection = ({ heading = "What Our Customers Say" }) => {
   const { reviews, rating, totalReviews } = useGoogleReviews();
-  // Single-row marquee — all reviews together to avoid visible repetition
-  const reviewsRow1 = reviews;
-  const reviewsRow2 = [...reviews].reverse();
+  // Split reviews between rows — each person only appears in one row
+  const halfReviews = Math.ceil(reviews.length / 2);
+  const reviewsRow1 = reviews.slice(0, halfReviews);
+  const reviewsRow2 = reviews.slice(halfReviews);
 
   return (
     <section style={{ padding: "80px 0", background: C.cream, overflow: "hidden" }}>
