@@ -93,6 +93,36 @@ Many Bermuda Dunes homes sit along golf course fairways, where sprinkler overspr
 Peace serves the Bermuda Dunes community with the same professional standards and convenient scheduling that our customers across the valley have come to expect. Whether you're in the country club community or the newer developments near Desert Willow, we've got you covered.`,
     customerTypes: "Country club residents, golf course homeowners, families, snowbirds, Four Seasons community members",
   },
+  "palm-springs": {
+    tagline: "Palm Springs' Trusted Solar & Window Cleaning Professionals",
+    landmarks: "Palm Springs Aerial Tramway, Palm Springs Art Museum, Palm Canyon Drive, Moorten Botanical Garden, Palm Springs Convention Center",
+    neighborhoods: "Movie Colony, Tahquitz River Estates, Vista Las Palmas, Deepwell Estates, Twin Palms, Sunrise Park, Racquet Club Estates, Las Palmas Heights, Old Las Palmas, Ruth Hardy Park area",
+    localContent: `Palm Springs is the crown jewel of the Coachella Valley — a city celebrated worldwide for its mid-century modern architecture, thriving arts scene, and iconic desert lifestyle. With more sunny days per year than nearly any city in California, solar panels are a natural fit for Palm Springs homes, and they need consistent professional care to deliver peak performance.
+
+The unique geography of Palm Springs creates specific challenges for homeowners. The San Jacinto Mountains tower directly to the west, channeling wind through the valley and depositing fine sand and dust across rooftops. The city's famous palm trees shed pollen year-round, and the mineral-heavy water from local wells leaves stubborn hard water stains on windows that standard cleaning simply can't remove.
+
+From the celebrity estates of Old Las Palmas and Vista Las Palmas to the charming bungalows of the Movie Colony and Tahquitz River Estates, Palm Springs homes feature some of the most striking glass walls and window designs in the desert. These architectural gems deserve professional care — not just for appearance, but to protect the glass from etching caused by mineral deposits and UV exposure.
+
+The downtown strip along Palm Canyon Drive is also home to dozens of boutiques, restaurants, and galleries that rely on sparkling storefronts to attract visitors. Peace serves both residential and commercial customers throughout Palm Springs, delivering the same meticulous results whether we're cleaning a boutique hotel on Indian Canyon or a private residence in Deepwell Estates.
+
+Whether you're a full-time resident enjoying the Palm Springs lifestyle or a seasonal visitor who wants your home maintained while you're away, Peace Solar & Window Cleaning provides reliable, scheduled service tailored to the unique needs of Palm Springs properties.`,
+    customerTypes: "Mid-century modern homeowners, boutique hotel operators, Palm Canyon Drive business owners, seasonal residents, Airbnb and vacation rental hosts, retirees, HOA communities",
+  },
+  "desert-hot-springs": {
+    tagline: "Desert Hot Springs' Reliable Solar & Window Cleaning Team",
+    landmarks: "Cabot's Pueblo Museum, Miracle Hill, Mission Springs Park, Hacienda Hot Springs, Two Bunch Palms Resort & Spa",
+    neighborhoods: "Miracle Hill, Hacienda Heights, Mission Lakes, Sky Valley, Desert Crest Country Club, Dos Palmas, Bubbling Wells area, West Drive corridor",
+    localContent: `Desert Hot Springs sits on the north side of the Coachella Valley, famous for its natural underground hot mineral springs that have drawn wellness seekers for generations. The city has experienced significant growth in recent years, with new housing developments and solar installations expanding across the landscape.
+
+What makes Desert Hot Springs unique is its geography. Positioned at a higher elevation than the valley floor, the city catches wind coming through the San Gorgonio Pass with particular intensity. These gusts carry heavy loads of fine desert sand and dust that coat solar panels rapidly, often reducing energy output by 25% or more between cleanings. Homeowners here benefit from more frequent cleaning schedules than many other parts of the valley.
+
+The Miracle Hill neighborhood and the areas around Hacienda Heights offer stunning panoramic views of the valley below, but those elevated positions also mean more wind exposure and faster dust accumulation. Many homes in these neighborhoods have large solar arrays that were installed during the city's recent building boom, and maintaining them is essential to protecting the homeowner's investment.
+
+Desert Hot Springs is also home to a thriving spa and wellness community. Boutique resorts like Two Bunch Palms and the many smaller wellness retreats along Hacienda Avenue depend on immaculate facilities to attract guests. Clean windows and well-maintained solar panels are part of the high-quality experience these businesses promise their visitors.
+
+Peace Solar & Window Cleaning is proud to serve the Desert Hot Springs community with the same professional quality and attention to detail we bring to every city in the Coachella Valley. From the established neighborhoods near Mission Lakes to the newer developments in Sky Valley, we keep your solar panels performing at their peak and your windows crystal clear.`,
+    customerTypes: "New development homeowners, spa and wellness resort operators, Miracle Hill residents, retirees, growing families, solar-equipped home buyers, Mission Lakes community members",
+  },
 };
 
 export default function AreaPage({ onQuizOpen }) {

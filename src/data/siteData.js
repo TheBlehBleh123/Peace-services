@@ -29,6 +29,8 @@ export const AREAS = [
   { slug: "coachella", name: "Coachella", description: "The eastern gateway to the valley, Coachella is one of the fastest-growing communities in the desert. We help homeowners protect their solar investment with regular cleaning." },
   { slug: "indian-wells", name: "Indian Wells", description: "One of the most exclusive communities in the valley, Indian Wells homeowners expect the best. Peace delivers premium solar panel and window cleaning to match." },
   { slug: "bermuda-dunes", name: "Bermuda Dunes", description: "Nestled between Indio and La Quinta, Bermuda Dunes is home to beautiful golf course communities. We keep your solar panels and windows in pristine condition." },
+  { slug: "palm-springs", name: "Palm Springs", description: "The iconic desert city known for mid-century modern architecture and vibrant culture. Palm Springs homeowners trust Peace for expert solar panel and window cleaning year-round." },
+  { slug: "desert-hot-springs", name: "Desert Hot Springs", description: "Famous for its natural hot mineral springs and wellness retreats, Desert Hot Springs homeowners count on Peace to keep solar panels efficient and windows spotless." },
 ];
 
 export const SERVICES = [
@@ -235,12 +237,14 @@ export const PLANS = [
 ];
 
 export const FALLBACK_REVIEWS = [
-  { author_name: "Samantha Johnson", rating: 5, relative_time_description: "2 weeks ago", text: "Peace cleaned every window in our home and they look absolutely flawless. The team was on time, professional, and left zero streaks. Already booked our next appointment!", profile_photo_url: "" },
-  { author_name: "John Peterson", rating: 5, relative_time_description: "1 month ago", text: "Signed up for the Pro Package and it's been the best decision. They handle everything — scheduling, reminders, the actual cleaning. I don't think about it anymore.", profile_photo_url: "" },
-  { author_name: "Natalie Martinez", rating: 5, relative_time_description: "3 weeks ago", text: "Our solar panels were producing 30% less before Peace cleaned them. After one visit we saw an immediate jump back to full output. They really know what they're doing.", profile_photo_url: "" },
-  { author_name: "Isabella Ruiz", rating: 5, relative_time_description: "2 months ago", text: "From the first phone call to the final walkthrough, the experience was seamless. You can tell Jack and Ben genuinely care about every home they service.", profile_photo_url: "" },
-  { author_name: "Michael Torres", rating: 5, relative_time_description: "1 week ago", text: "Best service in the Coachella Valley, hands down. On time, thorough, and the results speak for themselves. Our neighbors keep asking who we use!", profile_photo_url: "" },
-  { author_name: "Gabrielle Walker", rating: 5, relative_time_description: "3 months ago", text: "We had bird proofing done on our solar panels and a full window clean in one visit. The crew was friendly and efficient — highly recommend Peace to everyone.", profile_photo_url: "" },
+  { author_name: "Jamie Morreale", rating: 5, relative_time_description: "a month ago", text: "They were extremely easy to work with and did an amazing job. They showed up and we're quick and efficient and worked around my schedule and my unique needs. Highly recommend, will definitely have them out again.", profile_photo_url: "" },
+  { author_name: "Christine McCarron", rating: 5, relative_time_description: "a month ago", text: "I have already recommended these guys at my work place! They have the best attitude and were very good at their job! They worked quickly because I had a dentist appointment that I forgot I booked months ago. They were excellent and I thought the price was reasonable.", profile_photo_url: "" },
+  { author_name: "Pedro D Reyes", rating: 5, relative_time_description: "2 months ago", text: "Peace Solar Cleaning was amazing from start to finish and extremely easy to work with. They took the time to explain the entire process in a way that actually made sense. Highly recommend their services to anyone in the valley.", profile_photo_url: "" },
+  { author_name: "FELIPE S", rating: 5, relative_time_description: "a month ago", text: "I'm glad I went with Peace solar and window cleaning. Jack was very helpful with options on pigeon deterrents. Installation was easy and fast. Definitely would recommend to my friends and family.", profile_photo_url: "" },
+  { author_name: "Salam Khoury Ramirez", rating: 5, relative_time_description: "3 months ago", text: "Excellent job every time! We've used Peace Solar and Window Cleaning in the past for cleaning services and more recently for Christmas light hanging. Their work is impeccable and the crew is professional, kind, and eager to serve.", profile_photo_url: "" },
+  { author_name: "John Lehman", rating: 5, relative_time_description: "4 months ago", text: "Amazing work by this team. Great guys, hard workers, quality products and attention to detail. Were super happy with our Christmas light installation and will be working with them again for our windows and solar cleaning.", profile_photo_url: "" },
+  { author_name: "Louie Becerra", rating: 5, relative_time_description: "a month ago", text: "Jack and Ben are friendly and professional. I had a bad pigeon problem (a flock of them) under my solar panels. I'm glad I called them out here. Great job! And they worked on my panels while it was raining.", profile_photo_url: "" },
+  { author_name: "Rosario Cracchiolo", rating: 5, relative_time_description: "6 months ago", text: "We had a big problem with pigeons, and they were making a mess on our property. Jason and his team came out and did a wonderful job installing spikes on the roof, and they were so helpful in guiding us through other ways to keep the pigeons away.", profile_photo_url: "" },
 ];
 
 export const GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/EmqV3yHGqNtAgSD5vZXQ/webhook-trigger/2f29cb6a-7ba0-4132-88e4-53c79c2fd356";
