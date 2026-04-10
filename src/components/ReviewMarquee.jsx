@@ -1,24 +1,5 @@
-import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
-
-const C = { navy:"#3d4b65", sage:"#8a9d89", cream:"#f4f1ea", offwhite:"#e6e6e6", white:"#ffffff" };
-const fontSans = `"Inter",system-ui,-apple-system,sans-serif`;
-const fontDisplay = `"Space Grotesk",sans-serif`;
-
-const FALLBACK_REVIEWS = [
-  { author_name: "Samantha Johnson", rating: 5, relative_time_description: "2 weeks ago", text: "Peace cleaned every window in our home and they look absolutely flawless. The team was on time, professional, and left zero streaks. Already booked our next appointment!", profile_photo_url: "" },
-  { author_name: "John Peterson", rating: 5, relative_time_description: "1 month ago", text: "Signed up for the Pro Package and it's been the best decision. They handle everything — scheduling, reminders, the actual cleaning. I don't think about it anymore.", profile_photo_url: "" },
-  { author_name: "Natalie Martinez", rating: 5, relative_time_description: "3 weeks ago", text: "Our solar panels were producing 30% less before Peace cleaned them. After one visit we saw an immediate jump back to full output. They really know what they're doing.", profile_photo_url: "" },
-  { author_name: "Isabella Ruiz", rating: 5, relative_time_description: "2 months ago", text: "From the first phone call to the final walkthrough, the experience was seamless. You can tell Jack and Ben genuinely care about every home they service.", profile_photo_url: "" },
-  { author_name: "Michael Torres", rating: 5, relative_time_description: "1 week ago", text: "Best service in the Coachella Valley, hands down. On time, thorough, and the results speak for themselves. Our neighbors keep asking who we use!", profile_photo_url: "" },
-  { author_name: "Gabrielle Walker", rating: 5, relative_time_description: "3 months ago", text: "We had bird proofing done on our solar panels and a full window clean in one visit. The crew was friendly and efficient — highly recommend Peace to everyone.", profile_photo_url: "" },
-  { author_name: "David Chen", rating: 5, relative_time_description: "2 weeks ago", text: "Jack was incredibly thorough with our solar panel cleaning. He explained the whole process and even showed us before-and-after output readings. Production went up 25% the next day.", profile_photo_url: "" },
-  { author_name: "Maria Gonzalez", rating: 5, relative_time_description: "1 month ago", text: "We've tried three different window cleaning companies in the valley and Peace is by far the best. They actually show up when they say they will and the quality is unmatched.", profile_photo_url: "" },
-  { author_name: "Robert Kim", rating: 5, relative_time_description: "3 weeks ago", text: "Had Peace install bird proofing mesh on all 24 of our solar panels. Clean install, no damage, and the pigeons are finally gone. Should have done this years ago.", profile_photo_url: "" },
-  { author_name: "Amanda Foster", rating: 5, relative_time_description: "2 months ago", text: "The holiday lighting service was amazing! They designed a beautiful display for our home and handled all the setup and takedown. Will definitely be using them again this Christmas.", profile_photo_url: "" },
-  { author_name: "Carlos Rivera", rating: 5, relative_time_description: "1 month ago", text: "Peace Solar cleaned our panels after we noticed a dip in energy production. The difference was night and day — literally got 30% more power the next billing cycle. Great crew.", profile_photo_url: "" },
-  { author_name: "Jennifer Walsh", rating: 5, relative_time_description: "3 weeks ago", text: "I appreciate how professional and communicative the team is. They sent appointment reminders, showed up on time, and did an incredible job on our two-story windows.", profile_photo_url: "" },
-];
+import { FALLBACK_REVIEWS, C, fontSans, fontDisplay } from "../data/siteData";
 
 export const GoogleG = ({size=18}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +39,7 @@ export const ReviewCard = ({review}) => (
   </div>
 );
 
-export const ReviewMarquee = ({reviews,reverse=false,speed=25}) => (
+export const ReviewMarquee = ({reviews,reverse=false,speed=45}) => (
   <div className="marquee-wrap" style={{overflow:"hidden",padding:"12px 0"}}>
     <div className="marquee-track" style={{display:"flex",gap:20,width:"max-content",animation:`${reverse?"marquee-right":"marquee-left"} ${speed}s linear infinite`}}>
       {[...reviews,...reviews].map((r,i)=><ReviewCard key={i} review={r}/>)}
@@ -67,23 +48,7 @@ export const ReviewMarquee = ({reviews,reverse=false,speed=25}) => (
 );
 
 export const useGoogleReviews = () => {
-  const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
-  const [rating, setRating] = useState(5);
-  const [totalReviews, setTotalReviews] = useState(81);
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/reviews")
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(data => {
-        if (cancelled) return;
-        if (data.reviews?.length) setReviews(data.reviews);
-        if (data.rating) setRating(data.rating);
-        if (data.totalReviews) setTotalReviews(data.totalReviews);
-      })
-      .catch(() => { /* keep FALLBACK_REVIEWS */ });
-    return () => { cancelled = true; };
-  }, []);
-  return { reviews, rating, totalReviews };
+  return { reviews: FALLBACK_REVIEWS, rating: 5, totalReviews: FALLBACK_REVIEWS.length };
 };
 
 /* ═══ REVIEWS SECTION — reusable across pages ═══ */
