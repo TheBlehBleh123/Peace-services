@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
   try {
     // Use Places API (New) — placeDetails with reviews field
-    const url = `https://places.googleapis.com/v1/places/${PLACE_ID}?fields=reviews,rating,userRatingCount&key=${apiKey}`;
+    const url = `https://places.googleapis.com/v1/places/${PLACE_ID}?key=${apiKey}`;
 
     const response = await fetch(url, {
       headers: {
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errText = await response.text();
       console.error("Google Places API error:", response.status, errText);
-      return res.status(502).json({ error: "Failed to fetch reviews from Google" });
+      return res.status(502).json({ error: "Failed to fetch reviews from Google", status: response.status, detail: errText });
     }
 
     const data = await response.json();
