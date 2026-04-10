@@ -25,10 +25,9 @@ const IMG = {
 
 /*
   ╔══════════════════════════════════════════════════════════════╗
-  ║  GOOGLE REVIEWS CONFIG                                      ║
+  ║  GOOGLE REVIEWS — fetched server-side via /api/reviews       ║
   ╚══════════════════════════════════════════════════════════════╝
 */
-const GOOGLE_CONFIG = { apiKey: "", placeId: "" };
 
 /*
   ╔══════════════════════════════════════════════════════════════╗
@@ -215,10 +214,22 @@ const useParallax = () => {
 
 const useGoogleReviews = () => {
   const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
+  const [rating, setRating] = useState(5);
+  const [totalReviews, setTotalReviews] = useState(81);
   useEffect(() => {
-    if (!GOOGLE_CONFIG.apiKey || !GOOGLE_CONFIG.placeId) return;
+    let cancelled = false;
+    fetch("/api/reviews")
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(data => {
+        if (cancelled) return;
+        if (data.reviews?.length) setReviews(data.reviews);
+        if (data.rating) setRating(data.rating);
+        if (data.totalReviews) setTotalReviews(data.totalReviews);
+      })
+      .catch(() => { /* keep FALLBACK_REVIEWS */ });
+    return () => { cancelled = true; };
   }, []);
-  return { reviews };
+  return { reviews, rating, totalReviews };
 };
 
 /* ═══ STAT COUNTER COMPONENT ═══ */
@@ -408,7 +419,7 @@ const PricingCard = ({plan,index}) => {
    MAIN APP
    ═══════════════════════════════════════ */
 export default function App() {
-  const { reviews } = useGoogleReviews();
+  const { reviews, rating, totalReviews } = useGoogleReviews();
   const [heroDrift, setHeroDrift] = useState(0);
   const [quizOpen, setQuizOpen] = useState(false);
 

@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { SERVICES, AREAS, C, fontSerif, fontSans, fontDisplay, IMG, PHONE, PHONE_LINK, DOMAIN } from "../data/siteData";
 import SEOHead from "../components/SEOHead";
+import { ReviewsSection } from "../components/ReviewMarquee";
 import { Phone, ArrowRight, ChevronRight } from "lucide-react";
 
 export default function ServicePage({ onQuizOpen }) {
@@ -124,6 +125,9 @@ export default function ServicePage({ onQuizOpen }) {
           })}} />
         </section>
       )}
+
+      {/* Reviews Marquee */}
+      <ReviewsSection heading={`What Customers Say About Our ${service.shortTitle}`} />
 
       {/* CTA Section */}
       <section style={{ background: C.navy, padding: "80px 24px", textAlign: "center" }}>

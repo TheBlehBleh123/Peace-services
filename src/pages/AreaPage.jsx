@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { AREAS, SERVICES, C, fontSerif, fontSans, fontDisplay, PHONE, PHONE_LINK, DOMAIN, BUSINESS_NAME } from "../data/siteData";
 import SEOHead from "../components/SEOHead";
+import { ReviewsSection } from "../components/ReviewMarquee";
 import { Phone, ArrowRight, ChevronRight, MapPin } from "lucide-react";
 
 const AREA_DETAILS = {
@@ -224,6 +225,9 @@ export default function AreaPage({ onQuizOpen }) {
           </p>
         </div>
       </section>
+
+      {/* Reviews Marquee */}
+      <ReviewsSection heading={`Trusted by Homeowners in ${area.name}`} />
 
       {/* CTA */}
       <section style={{ background: C.navy, padding: "80px 24px", textAlign: "center" }}>
