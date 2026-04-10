@@ -37,7 +37,7 @@ export const SERVICES = [
     title: "Solar Panel Cleaning",
     shortTitle: "Solar Cleaning",
     icon: "Sun",
-    img: IMG.solar,
+    img: "https://lh3.googleusercontent.com/d/14O2JK5nQRUfMvcRJ0IVpsEdIJLmJyXkq",
     metaTitle: "Solar Panel Cleaning in Coachella Valley | Peace Solar & Window",
     metaDescription: "Professional solar panel cleaning in Coachella Valley. Restore up to 30% lost energy output. Serving Palm Desert, La Quinta, Indio & more. Free quotes!",
     heroHeadline: "Solar Panel Cleaning That Pays for Itself",
@@ -86,7 +86,7 @@ Our most popular option is the Quarterly Pro Package. Your cleanings are automat
     title: "Window Cleaning",
     shortTitle: "Window Cleaning",
     icon: "Wind",
-    img: IMG.window,
+    img: "https://lh3.googleusercontent.com/d/1s3U7p1MWwh0F2vbeerpAl1OLVRhMo41E",
     metaTitle: "Window Cleaning in Coachella Valley | Peace Solar & Window",
     metaDescription: "Professional window cleaning in Palm Desert, La Quinta, Indio & Coachella Valley. Interior & exterior. Streak-free guaranteed. 100+ 5-star reviews. Free quotes!",
     heroHeadline: "Crystal Clear Windows, Guaranteed",
@@ -122,9 +122,9 @@ We recommend quarterly window cleaning for most Coachella Valley homes, especial
       }
     ],
     faq: [
-      { q: "Do you clean both inside and outside windows?", a: "Yes! We offer both exterior-only and full interior + exterior window cleaning. Most of our recurring customers opt for the full inside-and-out service." },
+      { q: "Do you clean both inside and outside windows?", a: "Yes! We offer both exterior-only and full interior + exterior window cleaning. Most of our recurring customers will choose to add inside whenever they feel its needed." },
       { q: "How do you handle hard water stains on windows?", a: "We use professional-grade purified water and specialized hard water removal techniques designed for the Coachella Valley's mineral-heavy water. For severe buildup, we use safe restoration compounds that won't damage your glass." },
-      { q: "Do you clean screens and tracks?", a: "Yes, our full-service window cleaning includes screens, frames, sills, and tracks at no extra charge." },
+      { q: "Do you clean screens and tracks?", a: "Yes, our full-service window cleaning includes frames, sills, dusting your screens, and slider tracks with an interior cleaning." },
       { q: "How often should I get my windows cleaned in the desert?", a: "We recommend quarterly cleaning for most desert homes. Our Quarterly Pro Package makes this easy with automatic scheduling, 20% off every clean, and unlimited rain insurance." },
     ]
   },
@@ -133,7 +133,7 @@ We recommend quarterly window cleaning for most Coachella Valley homes, especial
     title: "Bird Proofing",
     shortTitle: "Bird Proofing",
     icon: "ShieldCheck",
-    img: IMG.bird,
+    img: "https://lh3.googleusercontent.com/d/1fXCi6JCHUa5f7HFjMCXEb-DdDqKl5aoY",
     metaTitle: "Solar Panel Bird Proofing in Coachella Valley | Peace Solar & Window",
     metaDescription: "Protect your solar panels from pigeons and birds. Professional bird proofing and critter guard installation in Coachella Valley. Prevent nesting damage. Free quotes!",
     heroHeadline: "Protect Your Solar Investment from Birds",
@@ -181,9 +181,9 @@ If you've noticed any of these signs, don't wait. Bird damage compounds quickly 
     ],
     faq: [
       { q: "Will bird proofing damage my solar panels or roof?", a: "No. Our critter guards attach with specialized clips that don't require drilling into your roof or panels. Your solar warranty stays fully intact." },
-      { q: "How long does bird proofing last?", a: "Our galvanized mesh critter guards are designed for the desert climate and typically last 10+ years. They're UV-resistant and rated for high winds." },
+      { q: "How long does bird proofing last?", a: "Our special material galvanized mesh PVC critter guards are designed for the desert climate and typically last as long as your solar system. Material is extremely important to install, to prevent the problem getting worse. They're UV-resistant and rated for high winds." },
       { q: "Can you remove existing bird nests before installing?", a: "Yes, nest and debris removal is included in every bird proofing installation. We fully clean the area under your panels before installing the mesh barrier." },
-      { q: "How much does solar panel bird proofing cost?", a: "Pricing depends on the number of panels and roof accessibility. We provide free quotes — most residential systems cost between $800-$2,500 for complete bird proofing." },
+      { q: "How much does solar panel bird proofing cost?", a: "Pricing greatly depends on the perimeter of the solar system (amount of mesh needed) and how much waste we find under the panels. We provide free quotes in person quotes." },
     ]
   },
   {
@@ -195,7 +195,7 @@ If you've noticed any of these signs, don't wait. Bird damage compounds quickly 
     metaTitle: "Holiday Light Installation in Coachella Valley | Peace Solar & Window",
     metaDescription: "Professional holiday light installation & removal in Coachella Valley. Custom designs for homes and businesses. Hassle-free from setup to takedown. Free quotes!",
     heroHeadline: "Effortless Holiday Lighting for Your Home",
-    heroSubtext: "Skip the ladder and the tangled lights. We design, install, maintain, and remove your holiday lighting so you can enjoy the season stress-free.",
+    heroSubtext: "Skip the ladder and the tangled lights. We design, install, maintain, and remove holiday lighting so you can enjoy the season stress-free.",
     sections: [
       {
         heading: "Professional Holiday Light Installation",
@@ -212,7 +212,7 @@ Our holiday lighting service runs from early November through January. We recomm
       },
       {
         heading: "Residential & Commercial Holiday Lighting",
-        content: `**For Homeowners:** Transform your home into the neighborhood showpiece. We offer roofline lighting, tree wrapping, yard displays, wreaths, and garlands. Choose from classic, modern, or custom color schemes.
+        content: `**For Homeowners:** Transform your home into the neighborhood showpiece. We offer roofline lighting, tree wrapping, palm tree wrapping, neatly wired to an automatic timer. Choose from classic, modern, or custom color schemes.
 
 **For Businesses:** Make your storefront or office stand out during the busiest shopping season. Professional holiday lighting increases foot traffic and creates a welcoming atmosphere for customers. We work with HOAs, shopping centers, restaurants, and office buildings.
 
@@ -221,7 +221,7 @@ Our holiday lighting service runs from early November through January. We recomm
     ],
     faq: [
       { q: "When should I book holiday light installation?", a: "We recommend booking by early October to secure your preferred installation date. Our November and December schedule fills up quickly. Installation typically begins in early November." },
-      { q: "Do you provide the lights or do I need to buy them?", a: "We can work both ways. We offer premium commercial-grade LED lights for purchase or rental, or we can install lights you already own." },
+      { q: "Do you provide the lights or do I need to buy them?", a: "We provide all of the lights, we offer premium commercial-grade LED lights. We only install lights we provide" },
       { q: "Do you take down the lights after the holidays?", a: "Yes! Takedown and removal is included in our full-service package. We typically schedule removals for January. We can also store your lights for next season." },
       { q: "Do you do commercial holiday lighting?", a: "Absolutely. We serve businesses, HOAs, shopping centers, and commercial properties throughout the Coachella Valley." },
     ]

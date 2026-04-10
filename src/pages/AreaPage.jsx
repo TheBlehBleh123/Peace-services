@@ -231,7 +231,7 @@ export default function AreaPage({ onQuizOpen }) {
           Serving {area.name} and All of Coachella Valley
         </h2>
         <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
-          Get a free quote in under 60 seconds. 400+ families served. 100+ five-star reviews.
+          Get a Quick and Easy Quote. 400+ families served. 100+ five-star reviews.
         </p>
         <button onClick={onQuizOpen} style={{
           display: "inline-flex", alignItems: "center", gap: 12,

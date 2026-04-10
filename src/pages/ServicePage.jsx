@@ -131,7 +131,7 @@ export default function ServicePage({ onQuizOpen }) {
           Ready for {service.title}?
         </h2>
         <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
-          Get a free quote in under 60 seconds. Serving all of Coachella Valley.
+          Get a Quick and Easy Quote. Serving all of Coachella Valley.
         </p>
         <button onClick={onQuizOpen} style={{
           display: "inline-flex", alignItems: "center", gap: 12,
