@@ -52,9 +52,9 @@ export const ReviewCard = ({review}) => (
   </div>
 );
 
-export const ReviewMarquee = ({reviews,reverse=false}) => (
+export const ReviewMarquee = ({reviews,reverse=false,speed=25}) => (
   <div className="marquee-wrap" style={{overflow:"hidden",padding:"12px 0"}}>
-    <div className="marquee-track" style={{display:"flex",gap:20,width:"max-content",animation:`${reverse?"marquee-right":"marquee-left"} 50s linear infinite`}}>
+    <div className="marquee-track" style={{display:"flex",gap:20,width:"max-content",animation:`${reverse?"marquee-right":"marquee-left"} ${speed}s linear infinite`}}>
       {[...reviews,...reviews].map((r,i)=><ReviewCard key={i} review={r}/>)}
     </div>
   </div>
@@ -83,9 +83,9 @@ export const useGoogleReviews = () => {
 /* ═══ REVIEWS SECTION — reusable across pages ═══ */
 export const ReviewsSection = ({ heading = "What Our Customers Say" }) => {
   const { reviews, rating, totalReviews } = useGoogleReviews();
-  const halfReviews = Math.ceil(reviews.length / 2);
-  const reviewsRow1 = reviews.slice(0, halfReviews);
-  const reviewsRow2 = reviews.slice(halfReviews);
+  // Single-row marquee — all reviews together to avoid visible repetition
+  const reviewsRow1 = reviews;
+  const reviewsRow2 = [...reviews].reverse();
 
   return (
     <section style={{ padding: "80px 0", background: C.cream, overflow: "hidden" }}>

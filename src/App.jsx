@@ -359,9 +359,9 @@ const ReviewCard = ({review}) => (
 );
 
 /* ═══ REVIEW MARQUEE — pauses on hover ═══ */
-const ReviewMarquee = ({reviews,reverse=false}) => (
+const ReviewMarquee = ({reviews,reverse=false,speed=25}) => (
   <div className="marquee-wrap" style={{overflow:"hidden",padding:"12px 0"}}>
-    <div className="marquee-track" style={{display:"flex",gap:20,width:"max-content",animation:`${reverse?"marquee-right":"marquee-left"} 50s linear infinite`}}>
+    <div className="marquee-track" style={{display:"flex",gap:20,width:"max-content",animation:`${reverse?"marquee-right":"marquee-left"} ${speed}s linear infinite`}}>
       {[...reviews,...reviews].map((r,i)=><ReviewCard key={i} review={r}/>)}
     </div>
   </div>
@@ -444,9 +444,9 @@ export default function App() {
     {name:"Quarterly Pro Package",features:[{t:"20% OFF Each Clean",on:true},{t:"Scheduled 4x a year",on:true},{t:"Unlimited Rain-Insurance",on:true}],hl:true,borderColor:C.sage},
   ];
 
-  const halfReviews = Math.ceil(reviews.length/2);
-  const reviewsRow1 = reviews.slice(0,halfReviews);
-  const reviewsRow2 = reviews.slice(halfReviews);
+  // Single-row marquee — all reviews together to avoid visible repetition
+  const reviewsRow1 = reviews;
+  const reviewsRow2 = [...reviews].reverse();
 
   return (
     <div style={{minHeight:"100vh",overflowX:"hidden",background:C.cream,color:C.navy,fontFamily:fontSans}}>
