@@ -100,6 +100,9 @@ export default function QuizModal({ onClose }) {
     };
     console.log('Quiz submitted:', data);
 
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'quote_form_submit' });
+
     if (GHL_WEBHOOK_URL && GHL_WEBHOOK_URL !== "PASTE_YOUR_WEBHOOK_URL_HERE") {
       fetch(GHL_WEBHOOK_URL, {
         method: 'POST',

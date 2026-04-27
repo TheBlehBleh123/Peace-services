@@ -1,8 +1,8 @@
 import { useParams, Link } from "react-router-dom";
-import { AREAS, SERVICES, C, fontSerif, fontSans, fontDisplay, PHONE, PHONE_LINK, DOMAIN, BUSINESS_NAME } from "../data/siteData";
+import { AREAS, SERVICES, C, fontSerif, fontSans, fontDisplay, PHONE, PHONE_LINK, DOMAIN, BUSINESS_NAME, trackPhoneClick } from "../data/siteData";
 import SEOHead from "../components/SEOHead";
-import { ReviewsSection } from "../components/ReviewMarquee";
-import { Phone, ArrowRight, ChevronRight, MapPin } from "lucide-react";
+import { ReviewsSection, GoogleG } from "../components/ReviewMarquee";
+import { Phone, ArrowRight, ChevronRight, MapPin, Star } from "lucide-react";
 
 const AREA_DETAILS = {
   "palm-desert": {
@@ -186,7 +186,7 @@ export default function AreaPage({ onQuizOpen }) {
           }}>
             Get a Free Quote <ArrowRight size={18} />
           </button>
-          <a href={PHONE_LINK} style={{
+          <a href={PHONE_LINK} onClick={trackPhoneClick} style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             background: C.navy, color: C.cream, padding: "16px 28px", borderRadius: 999,
             fontFamily: fontDisplay, fontSize: 14, fontWeight: 700, letterSpacing: ".1em",
@@ -194,6 +194,12 @@ export default function AreaPage({ onQuizOpen }) {
           }}>
             <Phone size={14} /> {PHONE}
           </a>
+        </div>
+        {/* Trust Badge */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
+          <GoogleG size={16} />
+          <div style={{ display: "flex", gap: 2 }}>{[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBC05" color="#FBBC05" />)}</div>
+          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>100+ Five-Star Reviews</span>
         </div>
       </header>
 

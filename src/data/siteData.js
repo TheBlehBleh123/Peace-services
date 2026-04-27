@@ -17,6 +17,7 @@ export const fontDisplay = `"Space Grotesk",sans-serif`;
 
 export const PHONE = "760-299-5187";
 export const PHONE_LINK = "tel:7602995187";
+export const trackPhoneClick = () => { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'phone_call_click' }); };
 export const BUSINESS_NAME = "Peace Solar & Window Cleaning";
 export const DOMAIN = "https://peace-services.com";
 

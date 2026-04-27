@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { C, fontSerif, fontSans, fontDisplay, IMG, PHONE_LINK, AREAS, SERVICES } from "../data/siteData";
+import { C, fontSerif, fontSans, fontDisplay, IMG, PHONE_LINK, AREAS, SERVICES, trackPhoneClick } from "../data/siteData";
 import { Phone, Menu, XIcon, ChevronDown } from "lucide-react";
 
 /** Shared Navbar + Footer for all pages (not homepage, which has its own) */
@@ -28,10 +28,10 @@ export function SiteNavbar({ onQuizOpen }) {
       WebkitBackdropFilter: `blur(${Math.max(scrollProgress * 20, 12)}px)`,
       borderBottom: `1px solid ${C.navy}11`,
     }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1400, margin: "0 auto", padding: "0 20px 0 4px" }}>
-        <Link to="/" style={{ lineHeight: 0, marginLeft: 0 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1400, margin: "0 auto", padding: "0 16px 0 4px" }}>
+        <Link to="/" style={{ lineHeight: 0, marginLeft: 0, flexShrink: 0 }}>
           <img src={IMG.logo} alt="Peace Solar & Window Cleaning" referrerPolicy="no-referrer"
-            style={{ height: 80 - scrollProgress * 20, width: "auto", transition: "height .15s linear", display: "block" }} />
+            style={{ height: Math.max(50, 80 - scrollProgress * 20), width: "auto", transition: "height .15s linear", display: "block" }} />
         </Link>
         <div className="desk-only" style={{ display: "flex", alignItems: "center", gap: 28 }}>
           {/* Services dropdown */}
@@ -70,8 +70,7 @@ export function SiteNavbar({ onQuizOpen }) {
               ))}
             </div>
           </div>
-          <Link to="/" style={lnk}>Pricing</Link>
-          <a href={PHONE_LINK} style={{
+          <a href={PHONE_LINK} onClick={trackPhoneClick} style={{
             display: "inline-flex", alignItems: "center", gap: 8, background: C.navy, color: C.cream,
             padding: "10px 22px", borderRadius: 999, fontFamily: fontDisplay, fontSize: 11,
             letterSpacing: ".15em", textTransform: "uppercase", textDecoration: "none", transition: "all .3s",
@@ -79,7 +78,7 @@ export function SiteNavbar({ onQuizOpen }) {
             <Phone size={13} /> Call Now
           </a>
         </div>
-        <button className="mob-only" onClick={() => setOpen(!open)} style={{ background: "none", border: "none", cursor: "pointer", color: C.navy, padding: 8, display: "flex" }}>
+        <button className="mob-only" onClick={() => setOpen(!open)} style={{ background: "none", border: "none", cursor: "pointer", color: C.navy, padding: 8, display: "flex", flexShrink: 0 }}>
           {open ? <XIcon size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -99,7 +98,7 @@ export function SiteNavbar({ onQuizOpen }) {
               {a.name}
             </Link>
           ))}
-          <a href={PHONE_LINK} onClick={() => setOpen(false)} style={{ fontFamily: fontDisplay, fontSize: 13, fontWeight: 700, color: C.sage, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
+          <a href={PHONE_LINK} onClick={() => { trackPhoneClick(); setOpen(false); }} style={{ fontFamily: fontDisplay, fontSize: 13, fontWeight: 700, color: C.sage, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
             <Phone size={14} /> Call Now
           </a>
         </div>
@@ -145,7 +144,7 @@ export function SiteFooter() {
           {/* Contact */}
           <div>
             <h4 style={{ fontFamily: fontDisplay, fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 16, fontWeight: 700 }}>Contact</h4>
-            <a href={PHONE_LINK} style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: fontSans, fontSize: 14, color: C.navy, textDecoration: "none", marginBottom: 10, fontWeight: 600 }}>
+            <a href={PHONE_LINK} onClick={trackPhoneClick} style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: fontSans, fontSize: 14, color: C.navy, textDecoration: "none", marginBottom: 10, fontWeight: 600 }}>
               <Phone size={14} /> (760) 299-5187
             </a>
             <p style={{ fontFamily: fontSans, fontSize: 14, color: `${C.navy}88`, fontWeight: 500, lineHeight: 1.6 }}>

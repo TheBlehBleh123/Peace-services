@@ -48,7 +48,7 @@ export const ReviewMarquee = ({reviews,reverse=false,speed=45}) => (
 );
 
 export const useGoogleReviews = () => {
-  return { reviews: FALLBACK_REVIEWS, rating: 5, totalReviews: FALLBACK_REVIEWS.length };
+  return { reviews: FALLBACK_REVIEWS, rating: 5, totalReviews: 100 };
 };
 
 /* ═══ REVIEWS SECTION — reusable across pages ═══ */

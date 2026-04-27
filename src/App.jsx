@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import QuizModal from "./components/QuizModal";
 import { useGoogleReviews, GoogleG, ReviewCard, ReviewMarquee } from "./components/ReviewMarquee";
+import { trackPhoneClick } from "./data/siteData";
 
 /*
   ╔══════════════════════════════════════════════════════════════╗
@@ -260,7 +261,7 @@ const Navbar = () => {
           {[["services","Services"],["plans","Plans"],["story","Our Story"]].map(([id,label])=>(
             <a key={id} href={`#${id}`} style={lnk} onMouseEnter={e=>e.target.style.color=C.sage} onMouseLeave={e=>e.target.style.color=C.navy}>{label}</a>
           ))}
-          <a href="tel:7602995187" style={{
+          <a href="tel:7602995187" onClick={trackPhoneClick} style={{
             display:"inline-flex",alignItems:"center",gap:8,background:C.navy,color:C.cream,padding:"10px 22px",borderRadius:999,
             fontFamily:fontDisplay,fontSize:11,letterSpacing:".15em",textTransform:"uppercase",textDecoration:"none",transition:"all .3s",
           }} onMouseEnter={e=>{e.currentTarget.style.background=C.sage;e.currentTarget.style.color=C.navy}}
@@ -277,7 +278,7 @@ const Navbar = () => {
           {[["#services","Services"],["#plans","Plans"],["#story","Our Story"]].map(([h,l])=>(
             <a key={l} href={h} onClick={()=>setOpen(false)} style={{fontFamily:fontDisplay,fontSize:13,letterSpacing:".12em",textTransform:"uppercase",color:C.navy,textDecoration:"none"}}>{l}</a>
           ))}
-          <a href="tel:7602995187" onClick={()=>setOpen(false)} style={{fontFamily:fontDisplay,fontSize:13,fontWeight:700,color:C.sage,textDecoration:"none",display:"flex",alignItems:"center",gap:8}}>
+          <a href="tel:7602995187" onClick={()=>{trackPhoneClick();setOpen(false)}} style={{fontFamily:fontDisplay,fontSize:13,fontWeight:700,color:C.sage,textDecoration:"none",display:"flex",alignItems:"center",gap:8}}>
             <Phone size={14}/> Call Now
           </a>
         </div>
@@ -399,6 +400,14 @@ export default function App() {
             onMouseLeave={e=>{e.currentTarget.style.background=C.sage;e.currentTarget.style.boxShadow=`0 20px 50px ${C.sage}55`;e.currentTarget.style.transform="translateY(0)"}}>
             Get a Quick and Easy Quote <ArrowRight size={22}/>
           </button>
+        </div>
+        {/* Trust Badge */}
+        <div style={{display:"flex",justifyContent:"center",marginBottom:16}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,background:C.cream,border:`1px solid ${C.navy}15`,borderRadius:999,padding:"8px 18px"}}>
+            <GoogleG size={16}/>
+            <div style={{display:"flex",gap:2}}>{[...Array(5)].map((_,i)=><Star key={i} size={13} fill="#FBBC05" color="#FBBC05"/>)}</div>
+            <span style={{fontFamily:fontDisplay,fontSize:12,fontWeight:700,color:C.navy,letterSpacing:".03em"}}>100+ Five-Star Reviews</span>
+          </div>
         </div>
       </section>
 
@@ -590,7 +599,7 @@ export default function App() {
                 </div>
                 <div>
                   <h4 style={{fontFamily:fontDisplay,fontSize:11,letterSpacing:".18em",textTransform:"uppercase",marginBottom:16,fontWeight:700}}>Contact</h4>
-                  <a href="tel:7602995187" style={{display:"flex",alignItems:"center",gap:8,fontFamily:fontSans,fontSize:14,color:C.navy,textDecoration:"none",marginBottom:10,fontWeight:600}}>
+                  <a href="tel:7602995187" onClick={trackPhoneClick} style={{display:"flex",alignItems:"center",gap:8,fontFamily:fontSans,fontSize:14,color:C.navy,textDecoration:"none",marginBottom:10,fontWeight:600}}>
                     <Phone size={14}/> (760) 299-5187
                   </a>
                   <p style={{fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,fontWeight:500,lineHeight:1.6}}>Serving the entire Coachella Valley, CA</p>
