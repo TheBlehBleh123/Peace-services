@@ -145,7 +145,7 @@ export default function AreaPage({ onQuizOpen }) {
     "telephone": "+1-760-299-5187",
     "url": `${DOMAIN}/areas/${area.slug}`,
     "areaServed": { "@type": "City", "name": area.name, "containedInPlace": { "@type": "State", "name": "California" } },
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "100", "bestRating": "5" },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "200", "bestRating": "5" },
     "priceRange": "$$"
   };
 
@@ -199,7 +199,7 @@ export default function AreaPage({ onQuizOpen }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
           <GoogleG size={16} />
           <div style={{ display: "flex", gap: 2 }}>{[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBC05" color="#FBBC05" />)}</div>
-          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>100+ Five-Star Reviews</span>
+          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>200+ Five-Star Reviews</span>
         </div>
       </header>
 
@@ -271,7 +271,7 @@ export default function AreaPage({ onQuizOpen }) {
           Serving {area.name} and All of Coachella Valley
         </h2>
         <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
-          Get a Quick and Easy Quote. 400+ families served. 100+ five-star reviews.
+          Get a Quick and Easy Quote. 950+ families served. 200+ five-star reviews.
         </p>
         <button onClick={onQuizOpen} style={{
           display: "inline-flex", alignItems: "center", gap: 12,

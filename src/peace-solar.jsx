@@ -53,12 +53,14 @@ const GOOGLE_CONFIG = {
 };
 
 const FALLBACK_REVIEWS = [
-  { author_name: "Samantha Johnson", rating: 5, relative_time_description: "2 weeks ago", text: "Peace cleaned every window in our home and they look absolutely flawless. The team was on time, professional, and left zero streaks. Already booked our next appointment!", profile_photo_url: "" },
-  { author_name: "John Peterson", rating: 5, relative_time_description: "1 month ago", text: "Signed up for the Pro Package and it's been the best decision. They handle everything — scheduling, reminders, the actual cleaning. I don't think about it anymore.", profile_photo_url: "" },
-  { author_name: "Natalie Martinez", rating: 5, relative_time_description: "3 weeks ago", text: "Our solar panels were producing 30% less before Peace cleaned them. After one visit we saw an immediate jump back to full output. They really know what they're doing.", profile_photo_url: "" },
-  { author_name: "Isabella Ruiz", rating: 5, relative_time_description: "2 months ago", text: "From the first phone call to the final walkthrough, the experience was seamless. You can tell Jack and Ben genuinely care about every home they service.", profile_photo_url: "" },
-  { author_name: "Michael Torres", rating: 5, relative_time_description: "1 week ago", text: "Best service in the Coachella Valley, hands down. On time, thorough, and the results speak for themselves. Our neighbors keep asking who we use!", profile_photo_url: "" },
-  { author_name: "Gabrielle Walker", rating: 5, relative_time_description: "3 months ago", text: "We had bird proofing done on our solar panels and a full window clean in one visit. The crew was friendly and efficient — highly recommend Peace to everyone.", profile_photo_url: "" },
+  { author_name: "Jamie Morreale", rating: 5, relative_time_description: "a month ago", text: "They were extremely easy to work with and did an amazing job. They showed up and we're quick and efficient and worked around my schedule and my unique needs. Highly recommend, will definitely have them out again.", profile_photo_url: "" },
+  { author_name: "Christine McCarron", rating: 5, relative_time_description: "a month ago", text: "I have already recommended these guys at my work place! They have the best attitude and were very good at their job! They worked quickly because I had a dentist appointment that I forgot I booked months ago. They were excellent and I thought the price was reasonable.", profile_photo_url: "" },
+  { author_name: "Pedro D Reyes", rating: 5, relative_time_description: "2 months ago", text: "Peace Solar Cleaning was amazing from start to finish and extremely easy to work with. They took the time to explain the entire process in a way that actually made sense. Highly recommend their services to anyone in the valley.", profile_photo_url: "" },
+  { author_name: "FELIPE S", rating: 5, relative_time_description: "a month ago", text: "I'm glad I went with Peace solar and window cleaning. Jack was very helpful with options on pigeon deterrents. Installation was easy and fast. Definitely would recommend to my friends and family.", profile_photo_url: "" },
+  { author_name: "Salam Khoury Ramirez", rating: 5, relative_time_description: "3 months ago", text: "Excellent job every time! We've used Peace Solar and Window Cleaning in the past for cleaning services and more recently for Christmas light hanging. Their work is impeccable and the crew is professional, kind, and eager to serve.", profile_photo_url: "" },
+  { author_name: "John Lehman", rating: 5, relative_time_description: "4 months ago", text: "Amazing work by this team. Great guys, hard workers, quality products and attention to detail. Were super happy with our Christmas light installation and will be working with them again for our windows and solar cleaning.", profile_photo_url: "" },
+  { author_name: "Louie Becerra", rating: 5, relative_time_description: "a month ago", text: "Jack and Ben are friendly and professional. I had a bad pigeon problem (a flock of them) under my solar panels. I'm glad I called them out here. Great job! And they worked on my panels while it was raining.", profile_photo_url: "" },
+  { author_name: "Rosario Cracchiolo", rating: 5, relative_time_description: "6 months ago", text: "We had a big problem with pigeons, and they were making a mess on our property. Jason and his team came out and did a wonderful job installing spikes on the roof, and they were so helpful in guiding us through other ways to keep the pigeons away.", profile_photo_url: "" },
 ];
 
 const C = {
@@ -369,11 +371,11 @@ export default function App() {
                   textShadow:"2px 2px 8px rgba(0,0,0,.7)", letterSpacing:"-.01em",
                 }}>Join the Peace Family</h2>
                 <p style={{fontFamily:fontSans,fontSize:16,color:C.cream,opacity:.9,lineHeight:1.6,fontWeight:400,textShadow:"1px 1px 4px rgba(0,0,0,.8)"}}>
-                  Over 400 families in the Coachella Valley trust PEACE for their window and solar cleaning needs.
+                  Over 950 families in the Coachella Valley trust PEACE for their window and solar cleaning needs.
                 </p>
               </div>
               <div className="stats-row" style={{display:"flex",gap:14}}>
-                {[{n:"400+",l:"Families Served"},{n:"100+",l:"5-Star Reviews"}].map(s=>(
+                {[{n:"950+",l:"Families Served"},{n:"200+",l:"5-Star Reviews"}].map(s=>(
                   <div key={s.l} className="stat-box" style={{
                     background:"rgba(0,0,0,.60)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
                     border:"2px solid rgba(255,255,255,.45)",borderRadius:18,padding:"20px 28px",
@@ -503,7 +505,7 @@ export default function App() {
               <div style={{display:"flex",gap:2}}>
                 {[...Array(5)].map((_,i)=><Star key={i} size={16} fill="#FBBC05" color="#FBBC05"/>)}
               </div>
-              <span style={{fontFamily:fontDisplay,fontSize:13,fontWeight:700}}>5.0 — Rated by 100+ families</span>
+              <span style={{fontFamily:fontDisplay,fontSize:13,fontWeight:700}}>5.0 — Rated by 200+ families</span>
             </div>
             <p style={{fontFamily:fontSans,fontSize:14,color:`${C.navy}88`,marginTop:8}}>
               Real reviews from real homeowners across the Coachella Valley

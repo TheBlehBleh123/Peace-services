@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { SERVICES, AREAS, C, fontSerif, fontSans, fontDisplay, IMG, PHONE, PHONE_LINK, DOMAIN, trackPhoneClick } from "../data/siteData";
 import SEOHead from "../components/SEOHead";
+import PlansSection from "../components/PlansSection";
 import { ReviewsSection, GoogleG } from "../components/ReviewMarquee";
 import { Phone, ArrowRight, ChevronRight, Star } from "lucide-react";
 
@@ -76,7 +77,7 @@ export default function ServicePage({ onQuizOpen }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
           <GoogleG size={16} />
           <div style={{ display: "flex", gap: 2 }}>{[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBC05" color="#FBBC05" />)}</div>
-          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>100+ Five-Star Reviews</span>
+          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>200+ Five-Star Reviews</span>
         </div>
       </header>
 
@@ -85,6 +86,11 @@ export default function ServicePage({ onQuizOpen }) {
         <img src={service.img} alt={`${service.title} in Coachella Valley`} referrerPolicy="no-referrer"
           style={{ width: "100%", height: 400, objectFit: "cover", borderRadius: 24 }} />
       </div>
+
+      {/* Plans — Window Cleaning & Solar Panel Cleaning only (same section as the home page) */}
+      {(slug === "window-cleaning" || slug === "solar-panel-cleaning") && (
+        <PlansSection onQuizOpen={onQuizOpen} />
+      )}
 
       {/* Content Sections */}
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 60px" }}>

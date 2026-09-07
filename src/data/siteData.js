@@ -91,7 +91,7 @@ Our most popular option is the Quarterly Pro Package. Your cleanings are automat
     icon: "Wind",
     img: "https://lh3.googleusercontent.com/d/1s3U7p1MWwh0F2vbeerpAl1OLVRhMo41E",
     metaTitle: "Window Cleaning in Coachella Valley | Peace Solar & Window",
-    metaDescription: "Professional window cleaning in Palm Desert, La Quinta, Indio & Coachella Valley. Interior & exterior. Streak-free guaranteed. 100+ 5-star reviews. Free quotes!",
+    metaDescription: "Professional window cleaning in Palm Desert, La Quinta, Indio & Coachella Valley. Interior & exterior. Streak-free guaranteed. 200+ 5-star reviews. Free quotes!",
     heroHeadline: "Crystal Clear Windows, Guaranteed",
     heroSubtext: "Desert dust, hard water stains, and mineral buildup don't stand a chance. Our professional window cleaning leaves every pane streak-free and sparkling — inside and out.",
     sections: [

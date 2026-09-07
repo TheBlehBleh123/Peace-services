@@ -406,7 +406,7 @@ export default function App() {
           <div style={{display:"flex",alignItems:"center",gap:8,background:C.cream,border:`1px solid ${C.navy}15`,borderRadius:999,padding:"8px 18px"}}>
             <GoogleG size={16}/>
             <div style={{display:"flex",gap:2}}>{[...Array(5)].map((_,i)=><Star key={i} size={13} fill="#FBBC05" color="#FBBC05"/>)}</div>
-            <span style={{fontFamily:fontDisplay,fontSize:12,fontWeight:700,color:C.navy,letterSpacing:".03em"}}>100+ Five-Star Reviews</span>
+            <span style={{fontFamily:fontDisplay,fontSize:12,fontWeight:700,color:C.navy,letterSpacing:".03em"}}>200+ Five-Star Reviews</span>
           </div>
         </div>
       </section>
@@ -434,12 +434,12 @@ export default function App() {
                 letterSpacing:"-.02em",
               }}>Join the Peace Family</h2>
               <p style={{fontFamily:fontSans,fontSize:16,color:"#fff",opacity:.95,lineHeight:1.6,fontWeight:500}}>
-                Over 400 families in the Coachella Valley trust PEACE for their window and solar cleaning needs.
+                Over 950 families in the Coachella Valley trust PEACE for their window and solar cleaning needs.
               </p>
             </div>
             <div className="stats-row" style={{display:"flex",gap:14}}>
-              <AnimatedStat target={400} suffix="+" label="Families Served"/>
-              <AnimatedStat target={100} suffix="+" label="5-Star Reviews"/>
+              <AnimatedStat target={950} suffix="+" label="Families Served"/>
+              <AnimatedStat target={200} suffix="+" label="5-Star Reviews"/>
             </div>
           </div>
 
@@ -459,11 +459,11 @@ export default function App() {
             Join the Peace Family
           </h2>
           <p style={{fontFamily:fontSans,fontSize:16,color:C.navy,fontWeight:500,opacity:.9,lineHeight:1.6,maxWidth:400}}>
-            Over 400 families in the Coachella Valley trust PEACE for their window and solar cleaning needs.
+            Over 950 families in the Coachella Valley trust PEACE for their window and solar cleaning needs.
           </p>
           <div style={{display:"flex",gap:14,marginTop:8,width:"100%",justifyContent:"center"}}>
-            <AnimatedStat target={400} suffix="+" label="Families Served"/>
-            <AnimatedStat target={100} suffix="+" label="5-Star Reviews"/>
+            <AnimatedStat target={950} suffix="+" label="Families Served"/>
+            <AnimatedStat target={200} suffix="+" label="5-Star Reviews"/>
           </div>
         </div>
 
@@ -545,7 +545,7 @@ export default function App() {
                 </div>
                 <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:10}}>
                   <div style={{display:"flex",gap:2}}>{[...Array(5)].map((_,i)=><Star key={i} size={16} fill="#FBBC05" color="#FBBC05"/>)}</div>
-                  <span style={{fontFamily:fontDisplay,fontSize:13,fontWeight:700}}>5.0 — Rated by 100+ families</span>
+                  <span style={{fontFamily:fontDisplay,fontSize:13,fontWeight:700}}>5.0 — Rated by 200+ families</span>
                 </div>
                 <p style={{fontFamily:fontSans,fontSize:15,fontWeight:500,color:`${C.navy}99`,marginTop:8}}>Real reviews from real homeowners across the Coachella Valley</p>
               </div>
