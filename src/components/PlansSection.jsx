@@ -1,6 +1,6 @@
-import { useRef, useEffect } from "react";
 import { Check, X, ArrowRight } from "lucide-react";
 import { PLANS, C, fontSerif, fontSans, fontDisplay } from "../data/siteData";
+import { useReveal } from "../hooks/useReveal";
 
 /*
   Reusable "Save BIG with Packages" plans section.
@@ -22,21 +22,6 @@ const PlansStyles = () => (
     @media(max-width:768px){.ps-grid{grid-template-columns:1fr;gap:20px}}
   `}</style>
 );
-
-/* Reveal-on-scroll: adds .visible once the element enters the viewport */
-const useReveal = (delay = 0) => {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    el.style.transitionDelay = `${delay}s`;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); }
-    }, { threshold: 0.15 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [delay]);
-  return ref;
-};
 
 const PricingCard = ({ plan, index }) => {
   const ref = useReveal(index * 0.18);

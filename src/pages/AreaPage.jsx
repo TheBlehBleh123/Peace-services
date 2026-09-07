@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { AREAS, SERVICES, C, fontSerif, fontSans, fontDisplay, PHONE, PHONE_LINK, DOMAIN, BUSINESS_NAME, trackPhoneClick } from "../data/siteData";
 import SEOHead from "../components/SEOHead";
 import { ReviewsSection, GoogleG } from "../components/ReviewMarquee";
+import { Reveal, RevealStyles } from "../components/Reveal";
 import { Phone, ArrowRight, ChevronRight, MapPin, Star } from "lucide-react";
 
 const AREA_DETAILS = {
@@ -152,6 +153,7 @@ export default function AreaPage({ onQuizOpen }) {
   return (
     <div style={{ minHeight: "100vh", background: C.cream, color: C.navy, fontFamily: fontSans }}>
       <SEOHead title={metaTitle} description={metaDesc} path={`/areas/${area.slug}`} schema={schema} />
+      <RevealStyles />
 
       {/* Breadcrumb */}
       <nav style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 24px 0", fontSize: 13, fontFamily: fontDisplay }}>
@@ -164,19 +166,19 @@ export default function AreaPage({ onQuizOpen }) {
 
       {/* Hero */}
       <header style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 24px 60px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+        <div className="hero-anim" style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
           <MapPin size={20} color={C.sage} />
           <span style={{ fontFamily: fontDisplay, fontSize: 13, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: C.sage }}>
             {area.name}, California
           </span>
         </div>
-        <h1 style={{ fontFamily: fontSerif, fontSize: "clamp(32px,5vw,56px)", fontWeight: 400, letterSpacing: "-.02em", marginBottom: 20, lineHeight: 1.1 }}>
+        <h1 className="hero-anim" style={{ fontFamily: fontSerif, fontSize: "clamp(32px,5vw,56px)", fontWeight: 400, letterSpacing: "-.02em", marginBottom: 20, lineHeight: 1.1 }}>
           {details.tagline}
         </h1>
-        <p style={{ fontSize: 18, fontWeight: 500, color: `${C.navy}aa`, lineHeight: 1.8, maxWidth: 720, marginBottom: 32 }}>
+        <p className="hero-anim-d1" style={{ fontSize: 18, fontWeight: 500, color: `${C.navy}aa`, lineHeight: 1.8, maxWidth: 720, marginBottom: 32 }}>
           {area.description}
         </p>
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+        <div className="hero-anim-d2" style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <button onClick={onQuizOpen} style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             background: C.sage, color: C.navy, padding: "16px 36px", borderRadius: 999,
@@ -196,7 +198,7 @@ export default function AreaPage({ onQuizOpen }) {
           </a>
         </div>
         {/* Trust Badge */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
+        <div className="hero-anim-d3" style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
           <GoogleG size={16} />
           <div style={{ display: "flex", gap: 2 }}>{[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBC05" color="#FBBC05" />)}</div>
           <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>200+ Five-Star Reviews</span>
@@ -205,32 +207,37 @@ export default function AreaPage({ onQuizOpen }) {
 
       {/* Main Content */}
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 60px" }}>
-        <div style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.9, whiteSpace: "pre-line" }}>
+        <Reveal style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.9, whiteSpace: "pre-line" }}>
           {details.localContent}
-        </div>
+        </Reveal>
       </div>
 
       {/* Services Available */}
       <section style={{ background: C.offwhite, padding: "80px 24px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,40px)", fontWeight: 400, marginBottom: 40, textAlign: "center" }}>
-            Services Available in {area.name}
-          </h2>
+          <Reveal>
+            <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,40px)", fontWeight: 400, marginBottom: 40, textAlign: "center" }}>
+              Services Available in {area.name}
+            </h2>
+          </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
-            {SERVICES.map(s => (
-              <Link key={s.slug} to={`/services/${s.slug}`} style={{
-                padding: 28, background: C.white, borderRadius: 20, textDecoration: "none", color: C.navy,
-                boxShadow: "0 4px 16px rgba(0,0,0,.05)", transition: "transform .3s",
-              }}>
-                <img src={s.img} alt={`${s.title} in ${area.name}`} referrerPolicy="no-referrer"
-                  style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 12, marginBottom: 16 }} />
-                <h3 style={{ fontFamily: fontDisplay, fontSize: 15, fontWeight: 700, letterSpacing: ".04em", marginBottom: 8 }}>
-                  {s.title}
-                </h3>
-                <p style={{ fontSize: 14, color: `${C.navy}88`, lineHeight: 1.6 }}>
-                  Professional {s.shortTitle.toLowerCase()} services in {area.name} and surrounding areas.
-                </p>
-              </Link>
+            {SERVICES.map((s, i) => (
+              <Reveal key={s.slug} delay={i * 0.08} style={{ height: "100%" }}>
+                <Link to={`/services/${s.slug}`} style={{
+                  display: "block", height: "100%",
+                  padding: 28, background: C.white, borderRadius: 20, textDecoration: "none", color: C.navy,
+                  boxShadow: "0 4px 16px rgba(0,0,0,.05)", transition: "transform .3s",
+                }}>
+                  <img src={s.img} alt={`${s.title} in ${area.name}`} referrerPolicy="no-referrer"
+                    style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 12, marginBottom: 16 }} />
+                  <h3 style={{ fontFamily: fontDisplay, fontSize: 15, fontWeight: 700, letterSpacing: ".04em", marginBottom: 8 }}>
+                    {s.title}
+                  </h3>
+                  <p style={{ fontSize: 14, color: `${C.navy}88`, lineHeight: 1.6 }}>
+                    Professional {s.shortTitle.toLowerCase()} services in {area.name} and surrounding areas.
+                  </p>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -239,26 +246,32 @@ export default function AreaPage({ onQuizOpen }) {
       {/* Local Details */}
       <section style={{ padding: "80px 24px", background: C.cream }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: fontSerif, fontSize: 32, fontWeight: 400, marginBottom: 24 }}>
-            Neighborhoods We Serve in {area.name}
-          </h2>
-          <p style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.8, marginBottom: 24 }}>
-            {details.neighborhoods}
-          </p>
+          <Reveal>
+            <h2 style={{ fontFamily: fontSerif, fontSize: 32, fontWeight: 400, marginBottom: 24 }}>
+              Neighborhoods We Serve in {area.name}
+            </h2>
+            <p style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.8, marginBottom: 24 }}>
+              {details.neighborhoods}
+            </p>
+          </Reveal>
 
-          <h3 style={{ fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".04em", marginBottom: 12, marginTop: 40 }}>
-            Nearby Landmarks
-          </h3>
-          <p style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.8, marginBottom: 24 }}>
-            {details.landmarks}
-          </p>
+          <Reveal delay={0.1}>
+            <h3 style={{ fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".04em", marginBottom: 12, marginTop: 40 }}>
+              Nearby Landmarks
+            </h3>
+            <p style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.8, marginBottom: 24 }}>
+              {details.landmarks}
+            </p>
+          </Reveal>
 
-          <h3 style={{ fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".04em", marginBottom: 12, marginTop: 40 }}>
-            Who We Serve in {area.name}
-          </h3>
-          <p style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.8 }}>
-            {details.customerTypes}
-          </p>
+          <Reveal delay={0.2}>
+            <h3 style={{ fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".04em", marginBottom: 12, marginTop: 40 }}>
+              Who We Serve in {area.name}
+            </h3>
+            <p style={{ fontSize: 16, fontWeight: 500, color: `${C.navy}bb`, lineHeight: 1.8 }}>
+              {details.customerTypes}
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -267,38 +280,45 @@ export default function AreaPage({ onQuizOpen }) {
 
       {/* CTA */}
       <section style={{ background: C.navy, padding: "80px 24px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,44px)", fontWeight: 400, color: C.cream, marginBottom: 16 }}>
-          Serving {area.name} and All of Coachella Valley
-        </h2>
-        <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
-          Get a Quick and Easy Quote. 950+ families served. 200+ five-star reviews.
-        </p>
-        <button onClick={onQuizOpen} style={{
-          display: "inline-flex", alignItems: "center", gap: 12,
-          background: C.sage, color: C.navy, padding: "20px 44px", borderRadius: 999,
-          fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".1em",
-          textTransform: "uppercase", border: "none", cursor: "pointer",
-          boxShadow: `0 16px 40px ${C.sage}44`,
-        }}>
-          Get a Free Quote <ArrowRight size={20} />
-        </button>
+        <Reveal>
+          <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,44px)", fontWeight: 400, color: C.cream, marginBottom: 16 }}>
+            Serving {area.name} and All of Coachella Valley
+          </h2>
+          <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
+            Get a Quick and Easy Quote. 950+ families served. 200+ five-star reviews.
+          </p>
+          <button onClick={onQuizOpen} style={{
+            display: "inline-flex", alignItems: "center", gap: 12,
+            background: C.sage, color: C.navy, padding: "20px 44px", borderRadius: 999,
+            fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".1em",
+            textTransform: "uppercase", border: "none", cursor: "pointer",
+            boxShadow: `0 16px 40px ${C.sage}44`,
+          }}>
+            Get a Free Quote <ArrowRight size={20} />
+          </button>
+        </Reveal>
       </section>
 
       {/* Other Areas */}
       <section style={{ padding: "60px 24px 80px", background: C.cream }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h3 style={{ fontFamily: fontSerif, fontSize: 28, fontWeight: 400, marginBottom: 24, textAlign: "center" }}>
-            Other Areas We Serve
-          </h3>
+          <Reveal>
+            <h3 style={{ fontFamily: fontSerif, fontSize: 28, fontWeight: 400, marginBottom: 24, textAlign: "center" }}>
+              Other Areas We Serve
+            </h3>
+          </Reveal>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
-            {otherAreas.map(a => (
-              <Link key={a.slug} to={`/areas/${a.slug}`} style={{
-                padding: "12px 24px", background: C.offwhite, borderRadius: 999,
-                textDecoration: "none", color: C.navy, fontFamily: fontDisplay,
-                fontSize: 13, fontWeight: 600, letterSpacing: ".04em", transition: "all .3s",
-              }}>
-                {a.name}
-              </Link>
+            {otherAreas.map((a, i) => (
+              <Reveal key={a.slug} delay={i * 0.05}>
+                <Link to={`/areas/${a.slug}`} style={{
+                  display: "inline-block",
+                  padding: "12px 24px", background: C.offwhite, borderRadius: 999,
+                  textDecoration: "none", color: C.navy, fontFamily: fontDisplay,
+                  fontSize: 13, fontWeight: 600, letterSpacing: ".04em", transition: "all .3s",
+                }}>
+                  {a.name}
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>

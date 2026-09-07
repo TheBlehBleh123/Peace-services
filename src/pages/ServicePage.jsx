@@ -3,6 +3,7 @@ import { SERVICES, AREAS, C, fontSerif, fontSans, fontDisplay, IMG, PHONE, PHONE
 import SEOHead from "../components/SEOHead";
 import PlansSection from "../components/PlansSection";
 import { ReviewsSection, GoogleG } from "../components/ReviewMarquee";
+import { Reveal, RevealStyles } from "../components/Reveal";
 import { Phone, ArrowRight, ChevronRight, Star } from "lucide-react";
 
 export default function ServicePage({ onQuizOpen }) {
@@ -36,6 +37,7 @@ export default function ServicePage({ onQuizOpen }) {
         path={`/services/${service.slug}`}
         schema={schema}
       />
+      <RevealStyles />
 
       {/* Breadcrumb */}
       <nav style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 24px 0", fontSize: 13, fontFamily: fontDisplay }}>
@@ -48,13 +50,13 @@ export default function ServicePage({ onQuizOpen }) {
 
       {/* Hero */}
       <header style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 24px 60px" }}>
-        <h1 style={{ fontFamily: fontSerif, fontSize: "clamp(32px,5vw,56px)", fontWeight: 400, letterSpacing: "-.02em", marginBottom: 20, lineHeight: 1.1 }}>
+        <h1 className="hero-anim" style={{ fontFamily: fontSerif, fontSize: "clamp(32px,5vw,56px)", fontWeight: 400, letterSpacing: "-.02em", marginBottom: 20, lineHeight: 1.1 }}>
           {service.heroHeadline}
         </h1>
-        <p style={{ fontSize: 18, fontWeight: 500, color: `${C.navy}aa`, lineHeight: 1.8, maxWidth: 720, marginBottom: 32 }}>
+        <p className="hero-anim-d1" style={{ fontSize: 18, fontWeight: 500, color: `${C.navy}aa`, lineHeight: 1.8, maxWidth: 720, marginBottom: 32 }}>
           {service.heroSubtext}
         </p>
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+        <div className="hero-anim-d2" style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <button onClick={onQuizOpen} style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             background: C.sage, color: C.navy, padding: "16px 36px", borderRadius: 999,
@@ -74,7 +76,7 @@ export default function ServicePage({ onQuizOpen }) {
           </a>
         </div>
         {/* Trust Badge */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
+        <div className="hero-anim-d3" style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
           <GoogleG size={16} />
           <div style={{ display: "flex", gap: 2 }}>{[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBC05" color="#FBBC05" />)}</div>
           <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>200+ Five-Star Reviews</span>
@@ -83,8 +85,10 @@ export default function ServicePage({ onQuizOpen }) {
 
       {/* Service Image */}
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 60px" }}>
-        <img src={service.img} alt={`${service.title} in Coachella Valley`} referrerPolicy="no-referrer"
-          style={{ width: "100%", height: 400, objectFit: "cover", borderRadius: 24 }} />
+        <div className="hero-anim-d3" style={{ borderRadius: 24, overflow: "hidden" }}>
+          <img src={service.img} alt={`${service.title} in Coachella Valley`} referrerPolicy="no-referrer" className="reveal-kenburns"
+            style={{ width: "100%", height: 400, objectFit: "cover", borderRadius: 24, display: "block" }} />
+        </div>
       </div>
 
       {/* Plans — Window Cleaning & Solar Panel Cleaning only (same section as the home page) */}
@@ -95,7 +99,7 @@ export default function ServicePage({ onQuizOpen }) {
       {/* Content Sections */}
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 60px" }}>
         {service.sections.map((section, i) => (
-          <div key={i} style={{ marginBottom: 48 }}>
+          <Reveal key={i} delay={i * 0.1} style={{ marginBottom: 48 }}>
             <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 400, marginBottom: 20, letterSpacing: "-.01em" }}>
               {section.heading}
             </h2>
@@ -104,7 +108,7 @@ export default function ServicePage({ onQuizOpen }) {
                 j % 2 === 1 ? <strong key={j} style={{ color: C.navy, fontWeight: 600 }}>{part}</strong> : part
               )}
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
 
@@ -112,16 +116,18 @@ export default function ServicePage({ onQuizOpen }) {
       {service.faq && (
         <section style={{ background: C.offwhite, padding: "80px 24px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,40px)", fontWeight: 400, marginBottom: 40, textAlign: "center" }}>
-              Frequently Asked Questions
-            </h2>
+            <Reveal>
+              <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,40px)", fontWeight: 400, marginBottom: 40, textAlign: "center" }}>
+                Frequently Asked Questions
+              </h2>
+            </Reveal>
             {service.faq.map((item, i) => (
-              <div key={i} style={{ marginBottom: 32, padding: 28, background: C.white, borderRadius: 16, boxShadow: "0 2px 12px rgba(0,0,0,.04)" }}>
+              <Reveal key={i} delay={i * 0.08} style={{ marginBottom: 32, padding: 28, background: C.white, borderRadius: 16, boxShadow: "0 2px 12px rgba(0,0,0,.04)" }}>
                 <h3 style={{ fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, marginBottom: 12, letterSpacing: ".02em" }}>
                   {item.q}
                 </h3>
                 <p style={{ fontSize: 15, fontWeight: 500, color: `${C.navy}aa`, lineHeight: 1.8 }}>{item.a}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
 
@@ -143,39 +149,46 @@ export default function ServicePage({ onQuizOpen }) {
 
       {/* CTA Section */}
       <section style={{ background: C.navy, padding: "80px 24px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,44px)", fontWeight: 400, color: C.cream, marginBottom: 16 }}>
-          Ready for {service.title}?
-        </h2>
-        <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
-          Get a Quick and Easy Quote. Serving all of Coachella Valley.
-        </p>
-        <button onClick={onQuizOpen} style={{
-          display: "inline-flex", alignItems: "center", gap: 12,
-          background: C.sage, color: C.navy, padding: "20px 44px", borderRadius: 999,
-          fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".1em",
-          textTransform: "uppercase", border: "none", cursor: "pointer",
-          boxShadow: `0 16px 40px ${C.sage}44`, transition: "all .3s",
-        }}>
-          Get a Free Quote <ArrowRight size={20} />
-        </button>
+        <Reveal>
+          <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(28px,4vw,44px)", fontWeight: 400, color: C.cream, marginBottom: 16 }}>
+            Ready for {service.title}?
+          </h2>
+          <p style={{ fontSize: 18, fontWeight: 500, color: `${C.cream}bb`, marginBottom: 32, maxWidth: 600, margin: "0 auto 32px" }}>
+            Get a Quick and Easy Quote. Serving all of Coachella Valley.
+          </p>
+          <button onClick={onQuizOpen} style={{
+            display: "inline-flex", alignItems: "center", gap: 12,
+            background: C.sage, color: C.navy, padding: "20px 44px", borderRadius: 999,
+            fontFamily: fontDisplay, fontSize: 16, fontWeight: 700, letterSpacing: ".1em",
+            textTransform: "uppercase", border: "none", cursor: "pointer",
+            boxShadow: `0 16px 40px ${C.sage}44`, transition: "all .3s",
+          }}>
+            Get a Free Quote <ArrowRight size={20} />
+          </button>
+        </Reveal>
       </section>
 
       {/* Areas Served */}
       <section style={{ padding: "80px 24px", background: C.cream }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 400, marginBottom: 32, textAlign: "center" }}>
-            {service.title} Areas We Serve
-          </h2>
+          <Reveal>
+            <h2 style={{ fontFamily: fontSerif, fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 400, marginBottom: 32, textAlign: "center" }}>
+              {service.title} Areas We Serve
+            </h2>
+          </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 16 }}>
-            {AREAS.map(area => (
-              <Link key={area.slug} to={`/areas/${area.slug}`} style={{
-                padding: "20px 24px", background: C.offwhite, borderRadius: 14,
-                textDecoration: "none", color: C.navy, fontFamily: fontDisplay,
-                fontSize: 14, fontWeight: 600, letterSpacing: ".04em",
-                transition: "all .3s", textAlign: "center",
-              }}>
-                {service.shortTitle} in {area.name}
-              </Link>
+            {AREAS.map((area, i) => (
+              <Reveal key={area.slug} delay={i * 0.06} style={{ height: "100%" }}>
+                <Link to={`/areas/${area.slug}`} style={{
+                  display: "block", height: "100%",
+                  padding: "20px 24px", background: C.offwhite, borderRadius: 14,
+                  textDecoration: "none", color: C.navy, fontFamily: fontDisplay,
+                  fontSize: 14, fontWeight: 600, letterSpacing: ".04em",
+                  transition: "all .3s", textAlign: "center",
+                }}>
+                  {service.shortTitle} in {area.name}
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -184,19 +197,24 @@ export default function ServicePage({ onQuizOpen }) {
       {/* Other Services */}
       <section style={{ padding: "60px 24px 80px", background: C.offwhite }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h3 style={{ fontFamily: fontSerif, fontSize: 28, fontWeight: 400, marginBottom: 24, textAlign: "center" }}>
-            Our Other Services
-          </h3>
+          <Reveal>
+            <h3 style={{ fontFamily: fontSerif, fontSize: 28, fontWeight: 400, marginBottom: 24, textAlign: "center" }}>
+              Our Other Services
+            </h3>
+          </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
-            {otherServices.map(s => (
-              <Link key={s.slug} to={`/services/${s.slug}`} style={{
-                padding: 24, background: C.white, borderRadius: 16,
-                textDecoration: "none", color: C.navy, transition: "all .3s",
-                boxShadow: "0 2px 12px rgba(0,0,0,.04)",
-              }}>
-                <h4 style={{ fontFamily: fontDisplay, fontSize: 15, fontWeight: 700, letterSpacing: ".04em", marginBottom: 8 }}>{s.title}</h4>
-                <p style={{ fontSize: 14, color: `${C.navy}88`, lineHeight: 1.6 }}>{s.heroSubtext.slice(0, 120)}...</p>
-              </Link>
+            {otherServices.map((s, i) => (
+              <Reveal key={s.slug} delay={i * 0.08} style={{ height: "100%" }}>
+                <Link to={`/services/${s.slug}`} style={{
+                  display: "block", height: "100%",
+                  padding: 24, background: C.white, borderRadius: 16,
+                  textDecoration: "none", color: C.navy, transition: "all .3s",
+                  boxShadow: "0 2px 12px rgba(0,0,0,.04)",
+                }}>
+                  <h4 style={{ fontFamily: fontDisplay, fontSize: 15, fontWeight: 700, letterSpacing: ".04em", marginBottom: 8 }}>{s.title}</h4>
+                  <p style={{ fontSize: 14, color: `${C.navy}88`, lineHeight: 1.6 }}>{s.heroSubtext.slice(0, 120)}...</p>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
