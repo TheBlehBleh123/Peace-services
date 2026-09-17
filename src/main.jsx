@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import App from './App.jsx'
 import ServicePage from './pages/ServicePage.jsx'
 import AreaPage from './pages/AreaPage.jsx'
+import GiveawayPage from './pages/GiveawayPage.jsx'
 import { SiteNavbar, SiteFooter } from './components/Layout.jsx'
 import QuizModal from './components/QuizModal.jsx'
 
@@ -16,15 +17,19 @@ function ScrollToTop() {
 function Root() {
   const [quizOpen, setQuizOpen] = useState(false);
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  // Pages that render with their OWN built-in layout (no shared site navbar/footer):
+  // the homepage and the giveaway landing page.
+  const bareLayout =
+    location.pathname === "/" || location.pathname === "/holiday-giveaway";
 
   return (
     <>
       <ScrollToTop />
-      {/* Homepage uses its own built-in navbar; other pages use shared navbar */}
-      {!isHome && <SiteNavbar onQuizOpen={() => setQuizOpen(true)} />}
+      {/* Homepage + landing page use their own built-in layout; other pages use the shared navbar */}
+      {!bareLayout && <SiteNavbar onQuizOpen={() => setQuizOpen(true)} />}
       <Routes>
         <Route path="/" element={<App externalQuizOpen={quizOpen} onExternalQuizClose={() => setQuizOpen(false)} />} />
+        <Route path="/holiday-giveaway" element={<GiveawayPage />} />
         <Route path="/services/:slug" element={<ServicePage onQuizOpen={() => setQuizOpen(true)} />} />
         <Route path="/areas/:slug" element={<AreaPage onQuizOpen={() => setQuizOpen(true)} />} />
         {/* Service+city combo redirects */}
@@ -35,9 +40,9 @@ function Root() {
         {/* Catch-all: redirect unknown routes to homepage */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!isHome && <SiteFooter />}
+      {!bareLayout && <SiteFooter />}
       {/* Quiz modal for non-homepage routes */}
-      {!isHome && quizOpen && <QuizModal onClose={() => setQuizOpen(false)} />}
+      {!bareLayout && quizOpen && <QuizModal onClose={() => setQuizOpen(false)} />}
     </>
   );
 }
