@@ -64,7 +64,7 @@ function isConfirmed(status) {
 // Low-level UpViral POST. Sends application/x-www-form-urlencoded (per UpViral
 // docs). Custom fields are passed as pre-bracketed keys, e.g. "custom_fields[phone]".
 async function upviralPost(params) {
-  const apiKey = process.env.UPVIRAL_API_KEY;
+  const apiKey = (process.env.UPVIRAL_API_KEY || '').trim();
   if (!apiKey) {
     const err = new Error('The giveaway is not fully set up yet. Please try again shortly.');
     err.code = 'NO_API_KEY';

@@ -59,7 +59,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: 'An email query parameter is required.' });
   }
 
-  const apiKey = process.env.UPVIRAL_API_KEY;
+  const apiKey = (process.env.UPVIRAL_API_KEY || '').trim();
   if (!apiKey) {
     return res.status(500).json({ ok: false, error: 'The giveaway is not fully set up yet.' });
   }
