@@ -10,7 +10,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // ── OWNER CONFIG ─────────────────────────────────────────────────────────────
-const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?rel=0&modestbranding=1&playsinline=1';
+const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
 const TERMS_URL = '/holiday-giveaway-terms';
 const ENTRIES_CLOSE = new Date('2026-10-06T06:59:00Z'); // Oct 5, 2026 11:59 PM PT
 const LS_REF = 'peace_giveaway_ref';
@@ -150,6 +150,9 @@ const STYLES = `
 .pg-vsl-ph{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;color:rgba(244,241,234,.82);text-align:center;padding:18px;}
 .pg-play{width:70px;height:70px;border-radius:50%;background:var(--sage);color:var(--navy);display:grid;place-items:center;font-size:24px;box-shadow:0 12px 28px rgba(138,157,137,.5);}
 .pg-vsl-ph .cap{font-family:var(--disp);text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;}
+.pg-vsl-unmute{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;padding-bottom:20px;background:transparent;border:0;cursor:pointer;}
+.pg-vsl-unmute span{display:inline-flex;align-items:center;gap:8px;background:rgba(20,26,38,.8);color:#fff;font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12.5px;padding:11px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:pg-pulse 1.8s ease-in-out infinite;}
+@keyframes pg-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
 .pg-scroll{margin:20px auto 0;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;width:100%;}
 .pg-scroll .t{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.2em;font-size:13.5px;color:var(--navy);}
 .pg-scroll svg{color:var(--sage);animation:pg-bob 1.4s ease-in-out infinite;}
@@ -299,6 +302,8 @@ export default function GiveawayPage() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const vslRef = useRef(null);
 
   const cd = useCountdown(ENTRIES_CLOSE);
   const closed = cd.closed;
@@ -400,6 +405,15 @@ export default function GiveawayPage() {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function unmuteVsl() {
+    const w = vslRef.current && vslRef.current.contentWindow;
+    if (w) {
+      w.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      w.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    }
+    setMuted(false);
+  }
+
   const shareMsg = `I just entered Peace's ${PRIZE_VALUE} holiday home transformation giveaway — a full custom light install, window cleaning, and solar panel cleaning. Enter free:`;
   const encMsg = encodeURIComponent(shareMsg);
   const encLink = encodeURIComponent(referralLink || '');
@@ -448,12 +462,20 @@ export default function GiveawayPage() {
               <p className="pg-hsub">Watch the quick video, then opt in below.</p>
               <div className="pg-vsl">
                 {VSL_EMBED_URL ? (
-                  <iframe
-                    src={VSL_EMBED_URL}
-                    title="Peace holiday giveaway video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <>
+                    <iframe
+                      ref={vslRef}
+                      src={VSL_EMBED_URL}
+                      title="Peace holiday giveaway video"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                    {muted && (
+                      <button type="button" className="pg-vsl-unmute" onClick={unmuteVsl} aria-label="Tap for sound">
+                        <span>🔊 Tap for sound</span>
+                      </button>
+                    )}
+                  </>
                 ) : (
                   <div className="pg-vsl-ph">
                     <div className="pg-play">▶</div>
