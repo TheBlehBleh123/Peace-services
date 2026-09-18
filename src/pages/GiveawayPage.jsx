@@ -225,6 +225,10 @@ const STYLES = `
 .pg-fine a{color:var(--sage-ink);font-weight:600;}
 .pg-refer{margin:0 0 15px;background:rgba(138,157,137,.14);border:1px solid rgba(138,157,137,.42);border-radius:12px;padding:12px 14px;font-family:var(--sans);font-weight:600;font-size:13.5px;color:var(--navy);line-height:1.45;text-align:center;}
 .pg-refer b{color:var(--sage-ink);}
+.pg-verify-note{background:#fdf3e2;border:1px solid #efd9ac;border-radius:12px;padding:12px 14px;font-family:var(--sans);font-weight:600;font-size:13.5px;color:#8a6a2c;line-height:1.5;margin:2px auto 16px;max-width:44ch;}
+.pg-verify-note b{color:#6f5320;}
+.pg-follow{font-family:var(--sans);font-size:12.5px;color:rgba(61,75,101,.7);margin-top:16px;}
+.pg-follow a{color:var(--sage-ink);font-weight:700;}
 
 /* states */
 .pg-state{text-align:center;}
@@ -294,23 +298,38 @@ export default function GiveawayPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   const cd = useCountdown(ENTRIES_CLOSE);
   const closed = cd.closed;
 
   useEffect(() => {
     setReferralCode(captureReferralCode());
+
+    let params = null;
+    try { params = new URLSearchParams(window.location.search); } catch { params = null; }
+    const justVerified = !!(params && params.get('verified') === '1');
+    const verifiedEmail = (params && params.get('e')) || '';
+
     let storedEmail = '';
     try { storedEmail = localStorage.getItem(LS_EMAIL) || ''; } catch { /* ignore */ }
-    if (storedEmail) {
-      setForm((f) => ({ ...f, email: storedEmail }));
-      fetchStatus(storedEmail)
+    const email = (justVerified && verifiedEmail) || storedEmail;
+    if (justVerified && verifiedEmail) {
+      try { localStorage.setItem(LS_EMAIL, verifiedEmail); } catch { /* ignore */ }
+    }
+
+    if (justVerified) { setStage('share'); setVerified(true); }
+
+    if (email) {
+      setForm((f) => ({ ...f, email }));
+      if (!justVerified) setStage('share');
+      fetchStatus(email)
         .then((d) => {
           setReferralLink(d.referral_link || '');
-          setTotalPoints(d.total_points || 0);
-          setStage(d.pending_confirmation ? 'confirm' : 'share');
+          setTotalPoints(d.entries || 1);
+          setVerified(Boolean(d.verified) || justVerified);
         })
-        .catch(() => { /* stay on form */ });
+        .catch(() => { /* keep current state */ });
     }
   }, []);
 
@@ -321,8 +340,9 @@ export default function GiveawayPage() {
       if (document.visibilityState !== 'visible') return;
       fetchStatus(email)
         .then((d) => {
-          setTotalPoints(d.total_points || 0);
+          setTotalPoints(d.entries || 1);
           if (d.referral_link) setReferralLink(d.referral_link);
+          if (typeof d.verified === 'boolean') setVerified(d.verified);
         })
         .catch(() => { /* ignore */ });
     };
@@ -355,8 +375,9 @@ export default function GiveawayPage() {
       if (!r.ok || !data.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
       try { localStorage.setItem(LS_EMAIL, email); } catch { /* ignore */ }
       setReferralLink(data.referral_link || '');
-      setTotalPoints(data.total_points || 0);
-      setStage(data.pending_confirmation ? 'confirm' : 'share');
+      setTotalPoints(data.entries || 1);
+      setVerified(Boolean(data.verified));
+      setStage('share');
       if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');
@@ -484,26 +505,24 @@ export default function GiveawayPage() {
                 </>
               )}
 
-              {stage === 'confirm' && (
-                <div className="pg-card pg-state">
-                  <div className="pg-badge">📩</div>
-                  <h2>Almost there</h2>
-                  <p>Check your email and click the confirmation link to activate your entry. It should land in a minute or two — check spam just in case.</p>
-                  <p style={{ marginTop: 12, fontSize: 15 }}>Once you confirm, come back here and your referral link + live entry count show up.</p>
-                </div>
-              )}
-
               {stage === 'share' && (
                 <div className="pg-card pg-state">
-                  <div className="pg-badge">🎉</div>
-                  <h2>You&apos;re entered!</h2>
-                  <p>Refer friends for more chances to win — and if your friend wins, <strong>you win too.</strong></p>
+                  <div className="pg-badge">{verified ? '🎉' : '📩'}</div>
+                  <h2>{verified ? "You're confirmed and entered!" : "You're in — one quick step"}</h2>
+                  {verified ? (
+                    <p>Your entry is locked in. Refer friends for more chances — and if your friend wins, <strong>you win too.</strong></p>
+                  ) : (
+                    <div className="pg-verify-note">
+                      📩 <b>Check your email and tap &ldquo;Confirm my entry.&rdquo;</b> That&apos;s what makes your entry count. It lands in a minute or two — check spam just in case. Grab your referral link below in the meantime.
+                    </div>
+                  )}
                   <div className="pg-entries">
                     <div className="pg-stat-num">{totalPoints}</div>
                     <div className="pg-stat-lbl">{totalPoints === 1 ? 'Entry' : 'Entries'}</div>
                   </div>
                   {referralLink && (
                     <>
+                      <p style={{ margin: '0 auto 6px', fontWeight: 600 }}>Your link — if your friend wins, you win too:</p>
                       <div className="pg-linkrow">
                         <input type="text" readOnly value={referralLink} onFocus={(e) => e.target.select()} />
                         <button className="pg-cta pg-copy" type="button" onClick={copyLink}>{copied ? 'Copied!' : 'Copy link'}</button>
@@ -516,12 +535,15 @@ export default function GiveawayPage() {
                       </div>
                     </>
                   )}
+                  <p className="pg-follow">We announce the winner on <a href="https://www.instagram.com/peacesolarcleaning/" target="_blank" rel="noreferrer">Instagram</a> and <a href="https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/" target="_blank" rel="noreferrer">Facebook</a> — follow to see it.</p>
                 </div>
               )}
-              <div className="pg-optcue" style={{ marginTop: 34 }}>
-                <div className="t">Here&apos;s what you win</div>
-                <div className="pg-arrows"><Chevron size={40} /><Chevron size={40} /><Chevron size={40} /></div>
-              </div>
+              {stage === 'form' && (
+                <div className="pg-optcue" style={{ marginTop: 34 }}>
+                  <div className="t">Here&apos;s what you win</div>
+                  <div className="pg-arrows"><Chevron size={40} /><Chevron size={40} /><Chevron size={40} /></div>
+                </div>
+              )}
             </div>
           </section>
 
