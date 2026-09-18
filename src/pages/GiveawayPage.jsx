@@ -128,7 +128,7 @@ const STYLES = `
 @media (prefers-reduced-motion: reduce){.pg-lights .edge{animation:none;}}
 
 /* ── COUNTDOWN STRIP ─────────────────────────────────────────────────── */
-.pg-strip{position:sticky;top:0;z-index:60;background:var(--navy);color:var(--cream);
+.pg-strip{position:fixed;top:0;left:0;right:0;z-index:60;background:var(--navy);color:var(--cream);
   padding:8px 20px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,.08);}
 .pg-strip .lbl{display:block;font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:11px;color:var(--sage);margin-bottom:5px;}
 .pg-timer{display:flex;align-items:stretch;justify-content:space-between;gap:10px;max-width:680px;margin:0 auto;}
@@ -304,9 +304,22 @@ export default function GiveawayPage() {
   const [verified, setVerified] = useState(false);
   const [muted, setMuted] = useState(true);
   const vslRef = useRef(null);
+  const stripRef = useRef(null);
+  const [stripH, setStripH] = useState(76);
 
   const cd = useCountdown(ENTRIES_CLOSE);
   const closed = cd.closed;
+
+  useEffect(() => {
+    const el = stripRef.current;
+    if (!el) return undefined;
+    const update = () => setStripH(el.offsetHeight);
+    update();
+    let ro;
+    if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(update); ro.observe(el); }
+    window.addEventListener('resize', update);
+    return () => { if (ro) ro.disconnect(); window.removeEventListener('resize', update); };
+  }, [closed]);
 
   useEffect(() => {
     setReferralCode(captureReferralCode());
@@ -429,7 +442,7 @@ export default function GiveawayPage() {
       </div>
 
       {/* big bold countdown strip */}
-      <div className="pg-strip">
+      <div className="pg-strip" ref={stripRef}>
         {closed ? (
           <>
             <span className="lbl">The giveaway</span>
@@ -442,6 +455,7 @@ export default function GiveawayPage() {
           </>
         )}
       </div>
+      <div className="pg-strip-spacer" style={{ height: stripH }} aria-hidden="true" />
 
       {closed ? (
         <section className="pg-sec">
