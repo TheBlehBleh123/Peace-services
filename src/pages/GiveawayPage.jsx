@@ -10,7 +10,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // ── OWNER CONFIG ─────────────────────────────────────────────────────────────
-const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
+const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?rel=0&modestbranding=1&playsinline=1';
 const TERMS_URL = '/holiday-giveaway-terms';
 const ENTRIES_CLOSE = new Date('2026-10-06T06:59:00Z'); // Oct 5, 2026 11:59 PM PT
 const LS_REF = 'peace_giveaway_ref';
@@ -302,8 +302,6 @@ export default function GiveawayPage() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [verified, setVerified] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const vslRef = useRef(null);
   const stripRef = useRef(null);
   const [stripH, setStripH] = useState(76);
 
@@ -418,15 +416,6 @@ export default function GiveawayPage() {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function unmuteVsl() {
-    const w = vslRef.current && vslRef.current.contentWindow;
-    if (w) {
-      w.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-      w.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    }
-    setMuted(false);
-  }
-
   const shareMsg = `I just entered Peace's ${PRIZE_VALUE} holiday home transformation giveaway — a full custom light install, window cleaning, and solar panel cleaning. Enter free:`;
   const encMsg = encodeURIComponent(shareMsg);
   const encLink = encodeURIComponent(referralLink || '');
@@ -476,20 +465,12 @@ export default function GiveawayPage() {
               <p className="pg-hsub">Watch the quick video, then opt in below.</p>
               <div className="pg-vsl">
                 {VSL_EMBED_URL ? (
-                  <>
-                    <iframe
-                      ref={vslRef}
-                      src={VSL_EMBED_URL}
-                      title="Peace holiday giveaway video"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                    {muted && (
-                      <button type="button" className="pg-vsl-unmute" onClick={unmuteVsl} aria-label="Tap for sound">
-                        <span>🔊 Tap for sound</span>
-                      </button>
-                    )}
-                  </>
+                  <iframe
+                    src={VSL_EMBED_URL}
+                    title="Peace holiday giveaway video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 ) : (
                   <div className="pg-vsl-ph">
                     <div className="pg-play">▶</div>
