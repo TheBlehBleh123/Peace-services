@@ -10,7 +10,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // ── OWNER CONFIG ─────────────────────────────────────────────────────────────
-const VSL_EMBED_URL = '';            // embeddable src (YouTube/Vimeo/Wistia). '' = placeholder.
+const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?rel=0&modestbranding=1&playsinline=1';
 const TERMS_URL = '/holiday-giveaway-terms';
 const ENTRIES_CLOSE = new Date('2026-10-06T06:59:00Z'); // Oct 5, 2026 11:59 PM PT
 const LS_REF = 'peace_giveaway_ref';
@@ -145,7 +145,7 @@ const STYLES = `
 .pg-value-line{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:clamp(15px,2.6vw,21px);color:var(--navy);margin-top:14px;}
 .pg-value-line b{color:#cf3a30;font-size:1.35em;}
 .pg-hsub{font-family:var(--sans);font-weight:600;color:rgba(61,75,101,.68);font-size:clamp(12.5px,1.7vw,14.5px);margin:11px auto 0;white-space:nowrap;}
-.pg-vsl{position:relative;width:100%;max-width:740px;padding-top:min(56.25%,416px);margin:18px auto 0;background:var(--navy-deep);border-radius:18px;overflow:hidden;box-shadow:0 26px 60px rgba(61,75,101,.3);border:1px solid rgba(61,75,101,.12);}
+.pg-vsl{position:relative;width:100%;max-width:380px;aspect-ratio:9/16;max-height:78vh;margin:18px auto 0;background:var(--navy-deep);border-radius:18px;overflow:hidden;box-shadow:0 26px 60px rgba(61,75,101,.3);border:1px solid rgba(61,75,101,.12);}
 .pg-vsl iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
 .pg-vsl-ph{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;color:rgba(244,241,234,.82);text-align:center;padding:18px;}
 .pg-play{width:70px;height:70px;border-radius:50%;background:var(--sage);color:var(--navy);display:grid;place-items:center;font-size:24px;box-shadow:0 12px 28px rgba(138,157,137,.5);}
