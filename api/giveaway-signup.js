@@ -15,18 +15,20 @@ import {
 
 async function postToGhl(lead) {
   const url = process.env.GHL_WEBHOOK_URL;
-  if (!url) return;
+  if (!url) return { configured: false };
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 5000);
   try {
-    await fetch(url, {
+    const r = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(lead),
       signal: ctl.signal,
     });
-  } catch {
+    return { configured: true, ok: r.ok, status: r.status };
+  } catch (e) {
     // Never let a GHL hiccup break the entry — Airtable already has it.
+    return { configured: true, ok: false, error: String((e && e.message) || e) };
   } finally {
     clearTimeout(timer);
   }
@@ -75,7 +77,7 @@ export default async function handler(req, res) {
 
     // Mirror into GHL for the sales follow-up (referral link + verify link ride
     // along so the GHL email template can drop both in). Non-fatal.
-    await postToGhl({
+    const ghl = await postToGhl({
       source: 'holiday-giveaway',
       name, email, phone,
       referral_code: code,
@@ -89,7 +91,7 @@ export default async function handler(req, res) {
 
     const verified = existing ? !!(existing.fields && existing.fields.Verified) : false;
 
-    return res.status(200).json({ ok: true, referral_link: shareLink(code), entries, verified });
+    return res.status(200).json({ ok: true, referral_link: shareLink(code), entries, verified, ghl });
   } catch (err) {
     const notSetup = err.code === 'NOT_SETUP';
     return res.status(notSetup ? 500 : 502).json({
