@@ -579,7 +579,7 @@ export default function GiveawayPage() {
                       <div className="pg-refer">🎁 <b>Refer the winner and you win too.</b> After you enter, share your link — if someone you refer wins, you get the same prize.</div>
                       <label className="pg-consent">
                         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-                        <span>I agree to the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">Official Rules &amp; Privacy Policy</a> and consent to receive marketing calls and texts from Peace Services at the number I provide, including by automated dialing or prerecorded voice. Message and data rates may apply; reply STOP to opt out. Consent is not required to make a purchase.</span>
+                        <span>I agree to the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">Official Rules &amp; Privacy Policy</a> and consent to receive marketing calls and texts from Peace Services at the number I provide. Message and data rates may apply; reply STOP to opt out. Consent is not required to make a purchase.</span>
                       </label>
                       <button className="pg-cta" type="submit" disabled={submitting}>
                         {submitting ? 'Entering…' : "Enter to Win — It's Free"}
