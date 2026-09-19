@@ -86,10 +86,10 @@ export default async function handler(req, res) {
       verify_link: verifyLink(email),
     });
 
-    let entries = 1;
-    try { entries = 1 + (await countReferrals(code)); } catch { /* show 1 if the count read hiccups */ }
-
     const verified = existing ? !!(existing.fields && existing.fields.Verified) : false;
+    const base = verified ? 1 : 0; // your own entry counts only once confirmed
+    let entries = base;
+    try { entries = base + (await countReferrals(code)); } catch { /* keep base if the count read hiccups */ }
 
     return res.status(200).json({ ok: true, referral_link: shareLink(code), entries, verified, ghl });
   } catch (err) {

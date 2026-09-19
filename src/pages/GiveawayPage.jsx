@@ -246,8 +246,8 @@ const STYLES = `
 .pg-stat-num{font-family:var(--serif);font-weight:700;color:var(--sage-ink);font-size:46px;line-height:1;}
 .pg-stat-lbl{font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;font-size:11px;color:var(--sage-ink);margin-top:5px;font-weight:700;}
 .pg-shares{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
-.pg-share{display:inline-flex;align-items:center;text-decoration:none;padding:12px 17px;border-radius:999px;font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;}
-.pg-share.primary{background:var(--sage);color:var(--navy);} .pg-share.dark{background:var(--navy);color:var(--cream);}
+.pg-share{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:12px 17px;border-radius:999px;font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--navy);color:var(--cream);border:none;cursor:pointer;}
+.pg-share:hover{background:var(--navy-deep);}
 
 .pg-footer{background:var(--cream);border-top:1px solid rgba(61,75,101,.12);padding:26px 0 30px;text-align:center;}
 .pg-footer .np{font-family:var(--disp);font-weight:700;letter-spacing:.18em;color:var(--navy);font-size:12px;text-transform:uppercase;}
@@ -362,7 +362,7 @@ export default function GiveawayPage() {
       fetchStatus(email)
         .then((d) => {
           setReferralLink(d.referral_link || '');
-          setTotalPoints(d.entries || 1);
+          setTotalPoints(d.entries ?? 0);
           const v = Boolean(d.verified) || justVerified;
           setVerified(v);
           setStatusChecked(true);
@@ -382,7 +382,7 @@ export default function GiveawayPage() {
       fetchStatus(email)
         .then((d) => {
           if (!alive) return;
-          setTotalPoints(d.entries || 1);
+          setTotalPoints(d.entries ?? 0);
           if (d.referral_link) setReferralLink(d.referral_link);
           if (typeof d.verified === 'boolean') {
             setVerified(d.verified);
@@ -427,7 +427,7 @@ export default function GiveawayPage() {
       if (!r.ok || !data.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
       try { localStorage.setItem(LS_EMAIL, email); } catch { /* ignore */ }
       setReferralLink(data.referral_link || '');
-      setTotalPoints(data.entries || 1);
+      setTotalPoints(data.entries ?? 0);
       setVerified(Boolean(data.verified));
       setStatusChecked(true);
       setStage('share');
@@ -445,6 +445,19 @@ export default function GiveawayPage() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(referralLink).then(done).catch(() => {});
     } else { done(); }
+  }
+
+  function shareInstagram() {
+    if (!referralLink) return;
+    // Instagram has no prefilled-link web intent. On mobile the native share
+    // sheet includes Instagram; on desktop, copy the link and open Instagram.
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({ title: 'Peace Holiday Giveaway', text: shareMsg, url: referralLink }).catch(() => {});
+      return;
+    }
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(referralLink); } catch { /* ignore */ }
+    setCopied(true); setTimeout(() => setCopied(false), 2000);
+    try { window.open('https://www.instagram.com/peacesolarcleaning/', '_blank', 'noopener'); } catch { /* ignore */ }
   }
 
   function scrollToForm() {
@@ -590,10 +603,9 @@ export default function GiveawayPage() {
                         <button className="pg-cta pg-copy" type="button" onClick={copyLink}>{copied ? 'Copied!' : 'Copy link'}</button>
                       </div>
                       <div className="pg-shares">
-                        <a className="pg-share primary" href={`sms:?&body=${encMsg}%20${encLink}`}>Text</a>
-                        <a className="pg-share dark" target="_blank" rel="noreferrer" href={`https://www.facebook.com/sharer/sharer.php?u=${encLink}`}>Facebook</a>
-                        <a className="pg-share dark" href={`mailto:?subject=${encodeURIComponent('You should enter this')}&body=${encMsg}%20${encLink}`}>Email</a>
-                        <a className="pg-share dark" target="_blank" rel="noreferrer" href={`https://twitter.com/intent/tweet?text=${encMsg}&url=${encLink}`}>X</a>
+                        <a className="pg-share" href={`sms:?&body=${encMsg}%20${encLink}`}>Text</a>
+                        <a className="pg-share" target="_blank" rel="noreferrer" href={`https://www.facebook.com/sharer/sharer.php?u=${encLink}`}>Facebook</a>
+                        <button className="pg-share" type="button" onClick={shareInstagram}>Instagram</button>
                       </div>
                     </>
                   )}

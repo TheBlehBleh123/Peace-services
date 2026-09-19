@@ -28,12 +28,14 @@ export default async function handler(req, res) {
     if (!rec) {
       return res.status(404).json({ ok: false, error: 'No entry found for that email yet.' });
     }
-    const entries = 1 + (await countReferrals(code));
+    // Your own entry counts only once you've confirmed; referrals only count verified.
+    const verified = !!(rec.fields && rec.fields.Verified);
+    const entries = (verified ? 1 : 0) + (await countReferrals(code));
     return res.status(200).json({
       ok: true,
       entries,
       referral_link: shareLink(code),
-      verified: !!(rec.fields && rec.fields.Verified),
+      verified,
     });
   } catch (err) {
     const notSetup = err.code === 'NOT_SETUP';
