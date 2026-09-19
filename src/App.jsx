@@ -609,7 +609,7 @@ export default function App() {
                 <a href="#" style={{lineHeight:0}}><img src={IMG.logo} alt="Peace Logo" referrerPolicy="no-referrer" style={{height:50,width:"auto"}}/></a>
                 <span style={{fontFamily:fontDisplay,fontSize:10,letterSpacing:".2em",textTransform:"uppercase",opacity:.35}}>© 2026 Peace Solar & Window Cleaning. Coachella Valley, CA.</span>
                 <div style={{display:"flex",gap:28}}>
-                  {[["Instagram","https://www.instagram.com/peacesolarcleaning/"],["Facebook","https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/"]].map(([label,url])=>(
+                  {[["Instagram","https://www.instagram.com/peaceservices/"],["Facebook","https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/"]].map(([label,url])=>(
                     <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{fontFamily:fontDisplay,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.navy,textDecoration:"none",transition:"color .3s"}}
                       onMouseEnter={e=>e.target.style.color=C.sage} onMouseLeave={e=>e.target.style.color=C.navy}>{label}</a>
                   ))}

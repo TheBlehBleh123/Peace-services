@@ -160,7 +160,7 @@ export function SiteFooter() {
             &copy; 2026 Peace Solar & Window Cleaning. Coachella Valley, CA.
           </span>
           <div style={{ display: "flex", gap: 28 }}>
-            {[["Instagram","https://www.instagram.com/peacesolarcleaning/"],["Facebook","https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/"]].map(([label,url]) => (
+            {[["Instagram","https://www.instagram.com/peaceservices/"],["Facebook","https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/"]].map(([label,url]) => (
               <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: C.navy, textDecoration: "none" }}>{label}</a>
             ))}
           </div>
