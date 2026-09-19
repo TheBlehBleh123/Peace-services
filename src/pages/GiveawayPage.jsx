@@ -232,6 +232,9 @@ const STYLES = `
 .pg-fine a{color:var(--sage-ink);font-weight:600;}
 .pg-refer{margin:0 0 15px;background:rgba(138,157,137,.14);border:1px solid rgba(138,157,137,.42);border-radius:12px;padding:12px 14px;font-family:var(--sans);font-weight:600;font-size:13.5px;color:var(--navy);line-height:1.45;text-align:center;}
 .pg-refer b{color:var(--sage-ink);}
+.pg-consent{display:flex;gap:10px;align-items:flex-start;text-align:left;margin:0 0 15px;font-family:var(--sans);font-size:11.5px;line-height:1.45;color:rgba(61,75,101,.8);font-weight:500;cursor:pointer;}
+.pg-consent input{margin-top:2px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--sage-ink);cursor:pointer;}
+.pg-consent a{color:var(--sage-ink);font-weight:700;}
 .pg-verify-note{background:#fdf3e2;border:1px solid #efd9ac;border-radius:12px;padding:12px 14px;font-family:var(--sans);font-weight:600;font-size:13.5px;color:#8a6a2c;line-height:1.5;margin:2px auto 16px;max-width:44ch;}
 .pg-verify-note b{color:#6f5320;}
 .pg-follow{font-family:var(--sans);font-size:12.5px;color:rgba(61,75,101,.7);margin-top:16px;}
@@ -307,6 +310,7 @@ export default function GiveawayPage() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [igNote, setIgNote] = useState(false);
+  const [consent, setConsent] = useState(false);
   const [verified, setVerified] = useState(false);
   const [statusChecked, setStatusChecked] = useState(false); // have we resolved verified state yet?
   const stripRef = useRef(null);
@@ -419,6 +423,10 @@ export default function GiveawayPage() {
     const phone = form.phone.trim();
     if (!name || !email || !phone) {
       setError('Please add your name, email, and phone so we can reach the winner.');
+      return;
+    }
+    if (!consent) {
+      setError('Please check the consent box to enter.');
       return;
     }
     setSubmitting(true);
@@ -569,6 +577,10 @@ export default function GiveawayPage() {
                           onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="(760) 555-1234" />
                       </div>
                       <div className="pg-refer">🎁 <b>Refer the winner and you win too.</b> After you enter, share your link — if someone you refer wins, you get the same prize.</div>
+                      <label className="pg-consent">
+                        <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+                        <span>I agree to the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">Official Rules &amp; Privacy Policy</a> and consent to receive marketing calls and texts from Peace Services at the number I provide, including by automated dialing or prerecorded voice. Message and data rates may apply; reply STOP to opt out. Consent is not required to make a purchase.</span>
+                      </label>
                       <button className="pg-cta" type="submit" disabled={submitting}>
                         {submitting ? 'Entering…' : "Enter to Win — It's Free"}
                       </button>
