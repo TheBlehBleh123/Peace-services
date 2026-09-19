@@ -11,7 +11,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // ── OWNER CONFIG ─────────────────────────────────────────────────────────────
 const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?rel=0&modestbranding=1&playsinline=1';
-const TERMS_URL = '/holiday-giveaway-terms';
+const TERMS_URL = '/holiday-giveaway-official-rules.pdf';
 const ENTRIES_CLOSE = new Date('2026-10-06T06:59:00Z'); // Oct 5, 2026 11:59 PM PT
 const LS_REF = 'peace_giveaway_ref';
 const LS_EMAIL = 'peace_giveaway_email';
@@ -573,7 +573,7 @@ export default function GiveawayPage() {
                         {submitting ? 'Entering…' : "Enter to Win — It's Free"}
                       </button>
                     </form>
-                    <div className="pg-fine">No purchase necessary. See the <a href={TERMS_URL}>Official Rules</a>.</div>
+                    <div className="pg-fine">No purchase necessary. See the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">Official Rules</a>.</div>
                   </div>
                 </>
               )}
@@ -682,7 +682,7 @@ export default function GiveawayPage() {
       <footer className="pg-footer">
         <div className="pg-wrap">
           <div className="np">No purchase necessary</div>
-          <p>No purchase necessary to enter or win. Open to California residents 18+ within Sponsor&apos;s service area. Void where prohibited. See the <a href={TERMS_URL}>Official Rules</a> for full details, eligibility, and how the winner is selected. Peace Services.</p>
+          <p>No purchase necessary to enter or win. Open to California residents 18+ within Sponsor&apos;s service area. Void where prohibited. See the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">Official Rules</a> for full details, eligibility, and how the winner is selected. Peace Services.</p>
         </div>
       </footer>
     </div>
