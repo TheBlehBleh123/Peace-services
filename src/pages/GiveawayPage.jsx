@@ -18,7 +18,7 @@ const LS_EMAIL = 'peace_giveaway_email';
 const LS_VERIFIED = 'peace_giveaway_verified'; // remembers a confirmed email on this device
 const PRIZE_VALUE = '$3,000';
 // Social — single source of truth (used by the share button + the follow line).
-const IG_URL = 'https://www.instagram.com/peacesolarcleaning/'; // TODO: confirm exact handle
+const IG_URL = 'https://www.instagram.com/peaceservices/';
 const FB_URL = 'https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/';
 // ─────────────────────────────────────────────────────────────────────────────
 
