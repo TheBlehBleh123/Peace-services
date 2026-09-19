@@ -15,6 +15,7 @@ const TERMS_URL = '/holiday-giveaway-terms';
 const ENTRIES_CLOSE = new Date('2026-10-06T06:59:00Z'); // Oct 5, 2026 11:59 PM PT
 const LS_REF = 'peace_giveaway_ref';
 const LS_EMAIL = 'peace_giveaway_email';
+const LS_VERIFIED = 'peace_giveaway_verified'; // remembers a confirmed email on this device
 const PRIZE_VALUE = '$3,000';
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -302,6 +303,7 @@ export default function GiveawayPage() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [statusChecked, setStatusChecked] = useState(false); // have we resolved verified state yet?
   const stripRef = useRef(null);
   const [stripH, setStripH] = useState(76);
 
@@ -330,41 +332,75 @@ export default function GiveawayPage() {
     let storedEmail = '';
     try { storedEmail = localStorage.getItem(LS_EMAIL) || ''; } catch { /* ignore */ }
     const email = (justVerified && verifiedEmail) || storedEmail;
+    const key = email.trim().toLowerCase();
     if (justVerified && verifiedEmail) {
       try { localStorage.setItem(LS_EMAIL, verifiedEmail); } catch { /* ignore */ }
     }
 
-    if (justVerified) { setStage('share'); setVerified(true); }
+    // Did this device already confirm this email? Render confirmed immediately
+    // (no "waiting" flash) — the live status fetch below still has final say.
+    let cachedVerified = false;
+    try { cachedVerified = !!key && localStorage.getItem(LS_VERIFIED) === key; } catch { /* ignore */ }
+
+    const rememberVerified = (v) => {
+      try {
+        if (v && key) localStorage.setItem(LS_VERIFIED, key);
+        else if (!v && key) localStorage.removeItem(LS_VERIFIED);
+      } catch { /* ignore */ }
+    };
+
+    if (justVerified) {
+      setStage('share'); setVerified(true); setStatusChecked(true); rememberVerified(true);
+    }
 
     if (email) {
       setForm((f) => ({ ...f, email }));
-      if (!justVerified) setStage('share');
+      if (!justVerified) {
+        setStage('share');
+        if (cachedVerified) { setVerified(true); setStatusChecked(true); }
+      }
       fetchStatus(email)
         .then((d) => {
           setReferralLink(d.referral_link || '');
           setTotalPoints(d.entries || 1);
-          setVerified(Boolean(d.verified) || justVerified);
+          const v = Boolean(d.verified) || justVerified;
+          setVerified(v);
+          setStatusChecked(true);
+          rememberVerified(v);
         })
-        .catch(() => { /* keep current state */ });
+        .catch(() => { setStatusChecked(true); }); // stop "checking…"; keep any cached verified state
     }
   }, []);
 
   useEffect(() => {
     if (stage !== 'share') return undefined;
     const email = form.email;
+    if (!email) return undefined;
+    let alive = true;
     const refresh = () => {
-      if (document.visibilityState !== 'visible') return;
+      if (document.visibilityState !== 'visible') return; // don't poll a backgrounded tab
       fetchStatus(email)
         .then((d) => {
+          if (!alive) return;
           setTotalPoints(d.entries || 1);
           if (d.referral_link) setReferralLink(d.referral_link);
-          if (typeof d.verified === 'boolean') setVerified(d.verified);
+          if (typeof d.verified === 'boolean') {
+            setVerified(d.verified);
+            try {
+              const key = email.trim().toLowerCase();
+              if (d.verified) localStorage.setItem(LS_VERIFIED, key);
+            } catch { /* ignore */ }
+          }
+          setStatusChecked(true);
         })
-        .catch(() => { /* ignore */ });
+        .catch(() => { /* ignore transient read errors */ });
     };
+    const id = setInterval(refresh, 15000);   // live entries + auto-flip to confirmed
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', refresh);
     return () => {
+      alive = false;
+      clearInterval(id);
       window.removeEventListener('focus', refresh);
       document.removeEventListener('visibilitychange', refresh);
     };
@@ -393,6 +429,7 @@ export default function GiveawayPage() {
       setReferralLink(data.referral_link || '');
       setTotalPoints(data.entries || 1);
       setVerified(Boolean(data.verified));
+      setStatusChecked(true);
       setStage('share');
       if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -522,7 +559,15 @@ export default function GiveawayPage() {
                 </>
               )}
 
-              {stage === 'share' && (
+              {stage === 'share' && !statusChecked && !verified && (
+                <div className="pg-card pg-state">
+                  <div className="pg-badge">⏳</div>
+                  <h2>Checking your entry…</h2>
+                  <p>One moment while we pull up your entry.</p>
+                </div>
+              )}
+
+              {stage === 'share' && (statusChecked || verified) && (
                 <div className="pg-card pg-state">
                   <div className="pg-badge">{verified ? '🎉' : '📩'}</div>
                   <h2>{verified ? "You're confirmed and entered!" : "You're in — one quick step"}</h2>
