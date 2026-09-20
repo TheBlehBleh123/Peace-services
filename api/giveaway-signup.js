@@ -55,6 +55,8 @@ export default async function handler(req, res) {
 
   try {
     const code = referralCode(email);
+    // Never let someone credit their own link (ref === their own code).
+    const referredBy = ref && ref !== code ? ref : '';
     const existing = await findByEmail(email);
 
     if (!existing) {
@@ -63,8 +65,8 @@ export default async function handler(req, res) {
         Name: name || undefined,
         Phone: phone || undefined,
         'Referral Code': code,
-        'Referred By': ref || undefined,
-        Source: ref ? 'Referral' : 'Direct',
+        'Referred By': referredBy || undefined,
+        Source: referredBy ? 'Referral' : 'Direct',
       });
     } else {
       // Returning entrant: refresh name/phone if given, but NEVER touch
@@ -77,11 +79,11 @@ export default async function handler(req, res) {
 
     // Mirror into GHL for the sales follow-up (referral link + verify link ride
     // along so the GHL email template can drop both in). Non-fatal.
-    const ghl = await postToGhl({
+    await postToGhl({
       source: 'holiday-giveaway',
       name, email, phone,
       referral_code: code,
-      referred_by: ref,
+      referred_by: referredBy,
       referral_link: shareLink(code),
       verify_link: verifyLink(email),
     });
@@ -91,7 +93,7 @@ export default async function handler(req, res) {
     let entries = base;
     try { entries = base + (await countReferrals(code)); } catch { /* keep base if the count read hiccups */ }
 
-    return res.status(200).json({ ok: true, referral_link: shareLink(code), entries, verified, ghl });
+    return res.status(200).json({ ok: true, referral_link: shareLink(code), entries, verified });
   } catch (err) {
     const notSetup = err.code === 'NOT_SETUP';
     return res.status(notSetup ? 500 : 502).json({
