@@ -1,13 +1,13 @@
 // api/giveaway-status.js
 //
-// Live read for the thank-you screen: how many entries someone has (1 + the
-// number of people they've referred) and whether they've verified yet.
-// Reads Airtable directly. Fires only when someone is on the share screen.
+// Live read for the thank-you screen: how many ELIGIBLE entries someone has —
+// which is 0 until they confirm, then (1 + their number of VERIFIED referrals) —
+// and whether they've verified yet. Fires only when someone is on the share screen.
 //
 // Request:  GET /api/giveaway-status?email=someone@example.com
 // Response: { ok:true, entries, referral_link, verified }  or  { ok:false, error }
 
-import { referralCode, shareLink, findByEmail, countReferrals } from '../lib/giveaway.js';
+import { referralCode, shareLink, findByCode, countReferrals } from '../lib/giveaway.js';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store, max-age=0');
@@ -24,13 +24,15 @@ export default async function handler(req, res) {
 
   try {
     const code = referralCode(email);
-    const rec = await findByEmail(email);
+    const rec = await findByCode(code);
     if (!rec) {
       return res.status(404).json({ ok: false, error: 'No entry found for that email yet.' });
     }
-    // Your own entry counts only once you've confirmed; referrals only count verified.
+    // Not eligible until you confirm: an unverified entrant has 0 (their own
+    // entry and any referrals only count once THEY are verified). This also
+    // matches their true drawing odds and skips the referral scan when unverified.
     const verified = !!(rec.fields && rec.fields.Verified);
-    const entries = (verified ? 1 : 0) + (await countReferrals(code));
+    const entries = verified ? (1 + (await countReferrals(code))) : 0;
     return res.status(200).json({
       ok: true,
       entries,

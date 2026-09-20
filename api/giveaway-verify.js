@@ -17,7 +17,7 @@
 // The token is an HMAC of the email (see lib/giveaway.js) — unforgeable and
 // stateless, so nothing per-user is stored.
 
-import { verifyToken, safeEqual, findByEmail, updateEntry, SITE_ORIGIN, LANDING_PATH } from '../lib/giveaway.js';
+import { verifyToken, safeEqual, referralCode, findByCode, updateEntry, SITE_ORIGIN, LANDING_PATH } from '../lib/giveaway.js';
 
 const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -74,7 +74,8 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     const email = String((req.query && req.query.e) || '').trim();
     const token = String((req.query && req.query.t) || '').trim();
-    const valid = !!(email && token && safeEqual(token, verifyToken(email)));
+    let valid = false;
+    try { valid = !!(email && token && safeEqual(token, verifyToken(email))); } catch { valid = false; }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'no-store, max-age=0');
     return res.status(200).send(confirmPage({ email, token, valid }));
@@ -88,17 +89,29 @@ export default async function handler(req, res) {
     const email = String(body.e || '').trim();
     const token = String(body.t || '').trim();
 
-    if (!email || !token || !safeEqual(token, verifyToken(email))) {
+    let valid = false;
+    try { valid = !!(email && token && safeEqual(token, verifyToken(email))); } catch { valid = false; }
+    if (!valid) {
       return res.redirect(302, dest('verify=fail'));
     }
-    try {
-      const rec = await findByEmail(email);
-      if (rec && !(rec.fields && rec.fields.Verified)) {
+
+    // Flip Verified, retrying transient failures. Never report success unless the
+    // write actually landed — otherwise we'd show "confirmed" while the entry
+    // stays out of the drawing. On persistent failure send them to a retry state.
+    const code = referralCode(email);
+    let done = false;
+    for (let attempt = 0; attempt < 3 && !done; attempt++) {
+      try {
+        const rec = await findByCode(code);
+        if (!rec || (rec.fields && rec.fields.Verified)) { done = true; break; }
         await updateEntry(rec.id, { Verified: true });
+        done = true;
+      } catch {
+        await new Promise((r) => setTimeout(r, 300 * (attempt + 1)));
       }
-    } catch {
-      // Token was valid; even if the Airtable write momentarily fails, send them
-      // to the confirmed page. (Re-pressing the button will retry the flip.)
+    }
+    if (!done) {
+      return res.redirect(302, dest(`verify=retry&e=${encodeURIComponent(email)}`));
     }
     return res.redirect(302, dest(`verified=1&e=${encodeURIComponent(email)}`));
   }

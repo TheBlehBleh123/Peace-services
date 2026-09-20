@@ -237,6 +237,8 @@ const STYLES = `
 .pg-consent a{color:var(--sage-ink);font-weight:700;}
 .pg-verify-note{background:#fdf3e2;border:1px solid #efd9ac;border-radius:12px;padding:12px 14px;font-family:var(--sans);font-weight:600;font-size:13.5px;color:#8a6a2c;line-height:1.5;margin:2px auto 16px;max-width:44ch;}
 .pg-verify-note b{color:#6f5320;}
+.pg-verify-issue{background:#fbeaea;border:1px solid #e6c3c0;border-radius:12px;padding:12px 14px;font-family:var(--sans);font-weight:600;font-size:13.5px;color:#8a3d36;line-height:1.5;margin:0 auto 18px;max-width:46ch;text-align:center;}
+.pg-verify-issue b{color:#6f2e28;}
 .pg-follow{font-family:var(--sans);font-size:12.5px;color:rgba(61,75,101,.7);margin-top:16px;}
 .pg-follow a{color:var(--sage-ink);font-weight:700;}
 
@@ -311,6 +313,7 @@ export default function GiveawayPage() {
   const [copied, setCopied] = useState(false);
   const [igNote, setIgNote] = useState(false);
   const [consent, setConsent] = useState(false);
+  const [verifyIssue, setVerifyIssue] = useState(''); // 'retry' | 'fail' from the verify redirect
   const [verified, setVerified] = useState(false);
   const [statusChecked, setStatusChecked] = useState(false); // have we resolved verified state yet?
   const stripRef = useRef(null);
@@ -337,6 +340,8 @@ export default function GiveawayPage() {
     try { params = new URLSearchParams(window.location.search); } catch { params = null; }
     const justVerified = !!(params && params.get('verified') === '1');
     const verifiedEmail = (params && params.get('e')) || '';
+    const vq = (params && params.get('verify')) || '';
+    if (vq === 'retry' || vq === 'fail') setVerifyIssue(vq);
 
     let storedEmail = '';
     try { storedEmail = localStorage.getItem(LS_EMAIL) || ''; } catch { /* ignore */ }
@@ -372,7 +377,10 @@ export default function GiveawayPage() {
         .then((d) => {
           setReferralLink(d.referral_link || '');
           setTotalPoints(d.entries ?? 0);
-          const v = Boolean(d.verified) || justVerified;
+          // Trust the server's verified state once the live read resolves — do
+          // NOT keep forcing true from the URL, so a failed confirm surfaces
+          // instead of showing a fake "confirmed" screen.
+          const v = Boolean(d.verified);
           setVerified(v);
           setStatusChecked(true);
           rememberVerified(v);
@@ -548,6 +556,13 @@ export default function GiveawayPage() {
           {/* OPT-IN */}
           <section id="pg-enter" className="pg-sec pg-sec-off">
             <div className="pg-wrap pg-narrow">
+              {verifyIssue && (
+                <div className="pg-verify-issue">
+                  {verifyIssue === 'retry'
+                    ? <>⚠️ <b>We couldn&apos;t confirm your entry just now.</b> Please reopen the most recent email from Peace and tap &ldquo;Confirm my entry&rdquo; again.</>
+                    : <>⚠️ <b>That confirmation link wasn&apos;t valid or has expired.</b> If you entered, reopen the most recent email from Peace and tap the confirm button there.</>}
+                </div>
+              )}
               {stage === 'form' && (
                 <>
                   <div className="pg-optcue">

@@ -10,7 +10,7 @@
 
 import {
   referralCode, shareLink, verifyLink,
-  findByEmail, createEntry, updateEntry, countReferrals,
+  findByCode, createEntry, updateEntry,
 } from '../lib/giveaway.js';
 
 async function postToGhl(lead) {
@@ -44,10 +44,10 @@ export default async function handler(req, res) {
   if (typeof p === 'string') { try { p = JSON.parse(p); } catch { p = {}; } }
   p = p || {};
 
-  const name = String(p.name || '').trim();
-  const email = String(p.email || '').trim();
-  const phone = String(p.phone || '').trim();
-  const ref = String(p.referral_code || '').trim();
+  const name = String(p.name || '').trim().slice(0, 120);
+  const email = String(p.email || '').trim().slice(0, 254);
+  const phone = String(p.phone || '').trim().slice(0, 40);
+  const ref = String(p.referral_code || '').trim().slice(0, 24);
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ ok: false, error: 'Please enter a valid email address.' });
@@ -55,9 +55,11 @@ export default async function handler(req, res) {
 
   try {
     const code = referralCode(email);
-    // Never let someone credit their own link (ref === their own code).
-    const referredBy = ref && ref !== code ? ref : '';
-    const existing = await findByEmail(email);
+    // Normalize the referral code we were handed to its canonical [0-9A-Z]
+    // form, and never let someone credit their own link (ref === own code).
+    const refClean = ref.toUpperCase().replace(/[^0-9A-Z]/g, '');
+    const referredBy = refClean && refClean !== code ? refClean : '';
+    const existing = await findByCode(code);
 
     if (!existing) {
       await createEntry({
@@ -68,6 +70,16 @@ export default async function handler(req, res) {
         'Referred By': referredBy || undefined,
         Source: referredBy ? 'Referral' : 'Direct',
       });
+      // Fire GHL (which sends the verification email) ONLY on first entry — never
+      // on a re-entry, so a repeat POST can't re-email or spam someone.
+      await postToGhl({
+        source: 'holiday-giveaway',
+        name, email, phone,
+        referral_code: code,
+        referred_by: referredBy,
+        referral_link: shareLink(code),
+        verify_link: verifyLink(email),
+      });
     } else {
       // Returning entrant: refresh name/phone if given, but NEVER touch
       // Verified or Referred By (don't reset their confirmation or attribution).
@@ -77,21 +89,11 @@ export default async function handler(req, res) {
       if (Object.keys(upd).length) { try { await updateEntry(existing.id, upd); } catch { /* non-fatal */ } }
     }
 
-    // Mirror into GHL for the sales follow-up (referral link + verify link ride
-    // along so the GHL email template can drop both in). Non-fatal.
-    await postToGhl({
-      source: 'holiday-giveaway',
-      name, email, phone,
-      referral_code: code,
-      referred_by: referredBy,
-      referral_link: shareLink(code),
-      verify_link: verifyLink(email),
-    });
-
+    // Your own entry counts only once confirmed (0 until verified). Referral
+    // entries surface via the thank-you page's live status poll — keeping this
+    // write path to at most two Airtable calls.
     const verified = existing ? !!(existing.fields && existing.fields.Verified) : false;
-    const base = verified ? 1 : 0; // your own entry counts only once confirmed
-    let entries = base;
-    try { entries = base + (await countReferrals(code)); } catch { /* keep base if the count read hiccups */ }
+    const entries = verified ? 1 : 0;
 
     return res.status(200).json({ ok: true, referral_link: shareLink(code), entries, verified });
   } catch (err) {
