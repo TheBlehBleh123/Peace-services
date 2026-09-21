@@ -10,7 +10,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // ── OWNER CONFIG ─────────────────────────────────────────────────────────────
-const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?rel=0&modestbranding=1&playsinline=1';
+const VSL_EMBED_URL = 'https://www.youtube.com/embed/J0uU0FbZPAc?rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
 const TERMS_URL = '/holiday-giveaway-official-rules.pdf';
 const ENTRIES_CLOSE = new Date('2026-10-06T06:59:00Z'); // Oct 5, 2026 11:59 PM PT
 const LS_REF = 'peace_giveaway_ref';
@@ -20,7 +20,27 @@ const PRIZE_VALUE = '$3,000';
 // Social — single source of truth (used by the share button + the follow line).
 const IG_URL = 'https://www.instagram.com/peaceservices/';
 const FB_URL = 'https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/';
+// Meta Pixel for the giveaway funnel — initialized on this page only.
+const META_PIXEL_ID = '1071285645176537';
 // ─────────────────────────────────────────────────────────────────────────────
+
+// Meta Pixel base loader (standard snippet); no-ops if fbq already present.
+function loadMetaPixel() {
+  if (typeof window === 'undefined' || window.fbq) return;
+  /* eslint-disable */
+  (function (f, b, e, v, n, t, s) {
+    if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+    t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  /* eslint-enable */
+}
+function fbTrack(event, params) {
+  try { if (typeof window !== 'undefined' && window.fbq) window.fbq('track', event, params || undefined); } catch { /* ignore */ }
+}
+function fbCustom(event, params) {
+  try { if (typeof window !== 'undefined' && window.fbq) window.fbq('trackCustom', event, params || undefined); } catch { /* ignore */ }
+}
 
 function captureReferralCode() {
   if (typeof window === 'undefined') return '';
@@ -334,6 +354,8 @@ export default function GiveawayPage() {
   }, [closed]);
 
   useEffect(() => {
+    loadMetaPixel();
+    try { if (window.fbq) { window.fbq('init', META_PIXEL_ID); window.fbq('track', 'PageView'); window.fbq('track', 'ViewContent'); } } catch { /* ignore */ }
     setReferralCode(captureReferralCode());
 
     let params = null;
@@ -368,6 +390,7 @@ export default function GiveawayPage() {
       // Analytics: a confirmed entry is the real lead — let GTM fire a
       // "confirmed lead" conversion off this (cost per verified lead).
       try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'giveaway_verified' }); } catch { /* ignore */ }
+      fbTrack('CompleteRegistration');
     }
 
     if (email) {
@@ -426,6 +449,61 @@ export default function GiveawayPage() {
     };
   }, [stage, form.email]);
 
+  // VSL watch-depth → Meta events (VSLPlay, VSL25/50/75, VSLComplete). Fully
+  // defensive: if the YouTube API fails to load, the page is unaffected.
+  useEffect(() => {
+    if (typeof window === 'undefined' || !VSL_EMBED_URL || closed) return undefined;
+    let player = null, poll = null, readyCheck = null;
+    const fired = new Set();
+    const onState = (e) => {
+      const YT = window.YT;
+      if (!YT || !player) return;
+      if (e.data === YT.PlayerState.PLAYING) {
+        if (!fired.has('play')) { fired.add('play'); fbCustom('VSLPlay'); }
+        if (poll) clearInterval(poll);
+        poll = setInterval(() => {
+          try {
+            const dur = player.getDuration(), cur = player.getCurrentTime();
+            if (!dur) return;
+            const pct = (cur / dur) * 100;
+            [[25, 'VSL25'], [50, 'VSL50'], [75, 'VSL75']].forEach(([th, ev]) => {
+              if (pct >= th && !fired.has(ev)) { fired.add(ev); fbCustom(ev, { percent: th }); }
+            });
+          } catch { /* ignore */ }
+        }, 1000);
+      } else if (e.data === YT.PlayerState.ENDED) {
+        if (!fired.has('complete')) { fired.add('complete'); fbCustom('VSLComplete'); }
+        if (poll) { clearInterval(poll); poll = null; }
+      } else if (e.data === YT.PlayerState.PAUSED) {
+        if (poll) { clearInterval(poll); poll = null; }
+      }
+    };
+    const build = () => {
+      try {
+        if (window.YT && window.YT.Player && document.getElementById('pg-vsl-iframe')) {
+          player = new window.YT.Player('pg-vsl-iframe', { events: { onStateChange: onState } });
+          return true;
+        }
+      } catch { /* ignore */ }
+      return false;
+    };
+    if (!build()) {
+      if (!document.getElementById('yt-iframe-api')) {
+        const s = document.createElement('script');
+        s.id = 'yt-iframe-api';
+        s.src = 'https://www.youtube.com/iframe_api';
+        document.body.appendChild(s);
+      }
+      readyCheck = setInterval(() => { if (build()) { clearInterval(readyCheck); readyCheck = null; } }, 400);
+      setTimeout(() => { if (readyCheck) { clearInterval(readyCheck); readyCheck = null; } }, 20000);
+    }
+    return () => {
+      if (poll) clearInterval(poll);
+      if (readyCheck) clearInterval(readyCheck);
+      try { if (player && player.destroy) player.destroy(); } catch { /* ignore */ }
+    };
+  }, [closed]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
@@ -458,6 +536,7 @@ export default function GiveawayPage() {
       // Analytics: emit a dataLayer event so GTM can fire the Meta "Lead" tag
       // (and any Google Ads conversion) — cost per form submission.
       try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'giveaway_form_submit' }); } catch { /* ignore */ }
+      fbTrack('Lead');
       // Keep them at the opt-in section — now showing the "confirm your email"
       // card — instead of jumping back to the top of the page.
       if (typeof window !== 'undefined') {
@@ -554,6 +633,7 @@ export default function GiveawayPage() {
               <div className="pg-vsl">
                 {VSL_EMBED_URL ? (
                   <iframe
+                    id="pg-vsl-iframe"
                     src={VSL_EMBED_URL}
                     title="Peace holiday giveaway video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
