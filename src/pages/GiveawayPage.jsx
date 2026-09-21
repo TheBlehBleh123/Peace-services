@@ -452,7 +452,17 @@ export default function GiveawayPage() {
       setVerified(Boolean(data.verified));
       setStatusChecked(true);
       setStage('share');
-      if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Keep them at the opt-in section — now showing the "confirm your email"
+      // card — instead of jumping back to the top of the page.
+      if (typeof window !== 'undefined') {
+        requestAnimationFrame(() => {
+          const el = document.getElementById('pg-enter');
+          if (el) {
+            const y = el.getBoundingClientRect().top + window.scrollY - (stripH + 12);
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+          }
+        });
+      }
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');
     } finally {
