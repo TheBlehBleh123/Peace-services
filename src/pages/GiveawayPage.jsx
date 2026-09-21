@@ -365,6 +365,9 @@ export default function GiveawayPage() {
 
     if (justVerified) {
       setStage('share'); setVerified(true); setStatusChecked(true); rememberVerified(true);
+      // Analytics: a confirmed entry is the real lead — let GTM fire a
+      // "confirmed lead" conversion off this (cost per verified lead).
+      try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'giveaway_verified' }); } catch { /* ignore */ }
     }
 
     if (email) {
@@ -452,6 +455,9 @@ export default function GiveawayPage() {
       setVerified(Boolean(data.verified));
       setStatusChecked(true);
       setStage('share');
+      // Analytics: emit a dataLayer event so GTM can fire the Meta "Lead" tag
+      // (and any Google Ads conversion) — cost per form submission.
+      try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'giveaway_form_submit' }); } catch { /* ignore */ }
       // Keep them at the opt-in section — now showing the "confirm your email"
       // card — instead of jumping back to the top of the page.
       if (typeof window !== 'undefined') {
