@@ -21,7 +21,7 @@ const PRIZE_VALUE = '$3,000';
 const IG_URL = 'https://www.instagram.com/peaceservices/';
 const FB_URL = 'https://www.facebook.com/p/Peace-Solar-Window-Cleaning-61577626017665/';
 // Meta Pixel for the giveaway funnel — initialized on this page only.
-const META_PIXEL_ID = '1071285645176537';
+const META_PIXEL_ID = '1391861939796446';
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Meta Pixel base loader (standard snippet); no-ops if fbq already present.
