@@ -4,7 +4,7 @@ import {
   ShieldCheck, ChevronLeft, Zap, Calendar, Info, XIcon,
 } from "lucide-react";
 import { C, fontSerif, fontSans, fontDisplay, GHL_WEBHOOK_URL } from "../data/siteData";
-import { trackSingleLead, BIRD_PIXEL_ID } from "../lib/metaPixel";
+import { trackLead, BIRD_PIXEL_ID } from "../lib/metaPixel";
 
 /* ═══ QUIZ MODAL STYLES ═══ */
 export const QuizStyles = () => (
@@ -104,9 +104,13 @@ export default function QuizModal({ onClose }) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'quote_form_submit' });
 
-    // Bird-proofing Meta Lead — fires ONLY when bird proofing is in the
-    // submission, and only on the dedicated bird pixel (no solar/window bleed).
-    if (services.includes('bird_proofing')) trackSingleLead(BIRD_PIXEL_ID);
+    // Bird-proofing Meta Lead — fires ONLY when bird proofing is in the submission.
+    if (services.includes('bird_proofing')) {
+      console.log('[bird pixel] firing Lead. services =', services);
+      trackLead(BIRD_PIXEL_ID);
+    } else {
+      console.log('[bird pixel] NOT firing (bird not selected). services =', services);
+    }
 
     if (GHL_WEBHOOK_URL && GHL_WEBHOOK_URL !== "PASTE_YOUR_WEBHOOK_URL_HERE") {
       fetch(GHL_WEBHOOK_URL, {

@@ -17,23 +17,24 @@ function loadFbevents() {
   /* eslint-enable */
 }
 
-// Init a pixel and fire a PageView scoped to that pixel only.
+// Init a pixel and fire its PageView. Uses the standard track() call (the same
+// one the giveaway pixel uses and which we've confirmed fires). Only the bird
+// pixel is init'd on the bird page, so this stays scoped to it in practice.
 export function initPixel(id) {
   try {
     loadFbevents();
-    if (window.fbq) { window.fbq('init', id); window.fbq('trackSingle', id, 'PageView'); }
+    if (window.fbq) { window.fbq('init', id); window.fbq('track', 'PageView'); }
   } catch { /* ignore */ }
 }
 
-// Fire a Lead on a specific pixel only. Ensures the pixel is loaded + registered
-// first, so the Lead fires even if the quote form was opened from a page that
-// didn't already init this pixel. init is idempotent and does not re-fire PageView.
-export function trackSingleLead(id) {
+// Fire a Lead. Ensures the pixel is loaded + registered first, so it fires even
+// if the quote form was opened from a page that didn't already init this pixel.
+export function trackLead(id) {
   try {
     loadFbevents();
     if (typeof window !== 'undefined' && window.fbq) {
       window.fbq('init', id);
-      window.fbq('trackSingle', id, 'Lead');
+      window.fbq('track', 'Lead');
     }
   } catch { /* ignore */ }
 }
