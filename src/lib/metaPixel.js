@@ -25,7 +25,15 @@ export function initPixel(id) {
   } catch { /* ignore */ }
 }
 
-// Fire a Lead on a specific pixel only (no cross-firing to other loaded pixels).
+// Fire a Lead on a specific pixel only. Ensures the pixel is loaded + registered
+// first, so the Lead fires even if the quote form was opened from a page that
+// didn't already init this pixel. init is idempotent and does not re-fire PageView.
 export function trackSingleLead(id) {
-  try { if (typeof window !== 'undefined' && window.fbq) window.fbq('trackSingle', id, 'Lead'); } catch { /* ignore */ }
+  try {
+    loadFbevents();
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('init', id);
+      window.fbq('trackSingle', id, 'Lead');
+    }
+  } catch { /* ignore */ }
 }
