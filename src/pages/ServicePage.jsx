@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { SERVICES, AREAS, C, fontSerif, fontSans, fontDisplay, IMG, PHONE, PHONE_LINK, DOMAIN, trackPhoneClick } from "../data/siteData";
+import { initPixel, BIRD_PIXEL_ID } from "../lib/metaPixel";
 import SEOHead from "../components/SEOHead";
 import PlansSection from "../components/PlansSection";
 import { ReviewsSection, GoogleG } from "../components/ReviewMarquee";
@@ -9,6 +11,12 @@ import { Phone, ArrowRight, ChevronRight, Star } from "lucide-react";
 export default function ServicePage({ onQuizOpen }) {
   const { slug } = useParams();
   const service = SERVICES.find(s => s.slug === slug);
+
+  // Bird-proofing page fires its own dedicated Meta pixel (PageView here, Lead
+  // on a bird quote submit) so the bird ad tracks cost-per-lead in isolation.
+  useEffect(() => {
+    if (slug === 'bird-proofing') initPixel(BIRD_PIXEL_ID);
+  }, [slug]);
 
   if (!service) return <NotFound />;
 
