@@ -87,7 +87,7 @@ export default function ServicePage({ onQuizOpen }) {
         <div className="hero-anim-d3" style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20, background: C.cream, border: `1px solid ${C.navy}15`, borderRadius: 999, padding: "8px 18px", width: "fit-content" }}>
           <GoogleG size={16} />
           <div style={{ display: "flex", gap: 2 }}>{[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBC05" color="#FBBC05" />)}</div>
-          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>200+ Five-Star Reviews</span>
+          <span style={{ fontFamily: fontDisplay, fontSize: 12, fontWeight: 700, color: C.navy, letterSpacing: ".03em" }}>250+ Five-Star Reviews</span>
         </div>
       </header>
 
@@ -116,6 +116,9 @@ export default function ServicePage({ onQuizOpen }) {
                 j % 2 === 1 ? <strong key={j} style={{ color: C.navy, fontWeight: 600 }}>{part}</strong> : part
               )}
             </div>
+            {section.cta && (
+              <InlineCTA heading={section.cta.heading} sub={section.cta.sub} location={`section-${i + 1}`} onQuizOpen={onQuizOpen} />
+            )}
             {/* Optional finished-job photo under a section (e.g. bird-proofing "after" shots while scrolling) */}
             {section.photo && (
               <figure style={{ margin: "32px 0 0" }}>
@@ -131,6 +134,13 @@ export default function ServicePage({ onQuizOpen }) {
           </Reveal>
         ))}
       </div>
+
+      {/* CTA above the FAQ */}
+      {service.faqCta && (
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 72px" }}>
+          <InlineCTA heading={service.faqCta.heading} sub={service.faqCta.sub} location="above-faq" onQuizOpen={onQuizOpen} large />
+        </div>
+      )}
 
       {/* FAQ Section */}
       {service.faq && (
@@ -239,6 +249,52 @@ export default function ServicePage({ onQuizOpen }) {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+// Mid-page call to action: quote button (opens the quiz) + call button.
+// `location` is pushed to the dataLayer so we can see which CTA gets the clicks.
+function InlineCTA({ heading, sub, location, onQuizOpen, large }) {
+  const track = (type) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "cta_click", cta_location: location, cta_type: type });
+  };
+  return (
+    <div style={{
+      margin: large ? 0 : "32px 0 0", padding: large ? "44px 32px" : "32px 28px",
+      background: large ? C.navy : C.white, color: large ? C.cream : C.navy,
+      borderRadius: 24, textAlign: "center",
+      boxShadow: large ? `0 20px 48px ${C.navy}33` : "0 2px 16px rgba(0,0,0,.06)",
+    }}>
+      {heading && (
+        <h3 style={{ fontFamily: fontSerif, fontSize: large ? "clamp(26px,3.6vw,36px)" : "clamp(22px,3vw,28px)", fontWeight: 400, marginBottom: sub ? 10 : 22, letterSpacing: "-.01em" }}>
+          {heading}
+        </h3>
+      )}
+      {sub && (
+        <p style={{ fontSize: 16, fontWeight: 500, opacity: .75, lineHeight: 1.6, marginBottom: 24, textWrap: "balance" }}>{sub}</p>
+      )}
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+        <button onClick={() => { track("quote"); onQuizOpen(); }} style={{
+          display: "inline-flex", alignItems: "center", gap: 10,
+          background: C.sage, color: C.navy, padding: "16px 34px", borderRadius: 999,
+          fontFamily: fontDisplay, fontSize: 14, fontWeight: 700, letterSpacing: ".1em",
+          textTransform: "uppercase", border: "none", cursor: "pointer",
+          boxShadow: `0 12px 32px ${C.sage}44`,
+        }}>
+          Get a Free Quote <ArrowRight size={18} />
+        </button>
+        <a href={PHONE_LINK} onClick={(e) => { track("call"); trackPhoneClick(e); }} style={{
+          display: "inline-flex", alignItems: "center", gap: 8,
+          background: large ? "transparent" : C.navy, color: C.cream, padding: "16px 26px", borderRadius: 999,
+          border: large ? `1.5px solid ${C.cream}55` : "none",
+          fontFamily: fontDisplay, fontSize: 14, fontWeight: 700, letterSpacing: ".1em",
+          textTransform: "uppercase", textDecoration: "none",
+        }}>
+          <Phone size={14} /> {PHONE}
+        </a>
+      </div>
     </div>
   );
 }

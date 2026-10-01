@@ -168,6 +168,7 @@ Left unchecked, bird damage can cost thousands in solar panel repairs and roof d
 - Clean, low-profile finish that's virtually invisible from the ground
 
 Our critter guards are built to withstand the Coachella Valley's extreme temperatures, UV exposure, and wind. They come with a workmanship guarantee and typically last 10+ years without maintenance.`,
+        cta: { heading: "Want this done on your home?", sub: "Free estimate. We clear the nests, clean the panels, and seal every edge in one visit." },
         photo: { src: "/images/bird-proofing/mesh-panel-corner.jpg", alt: "Close-up of bird proofing mesh wrapped tight around a solar panel corner", caption: "Corners wrapped tight, so there is no gap for a pigeon to squeeze through." }
       },
       {
@@ -185,6 +186,7 @@ If you've noticed any of these signs, don't wait. Bird damage compounds quickly 
         photo: { src: "/images/bird-proofing/mesh-long-run.jpg", alt: "Long run of bird proofing mesh sealing the gap under clean solar panels", caption: "Every edge sealed. Clean panels, nothing nesting underneath." }
       }
     ],
+    faqCta: { heading: "Ready to get the birds out for good?", sub: "Free estimate, up to a 5-year bird-free guarantee, and 250+ five-star reviews across the Coachella Valley." },
     faq: [
       { q: "Will bird proofing damage my solar panels or roof?", a: "No. Our critter guards attach with specialized clips that don't require drilling into your roof or panels. Your solar warranty stays fully intact." },
       { q: "How long does bird proofing last?", a: "Our special material galvanized mesh PVC critter guards are designed for the desert climate and typically last as long as your solar system. Material is extremely important to install, to prevent the problem getting worse. They're UV-resistant and rated for high winds." },
