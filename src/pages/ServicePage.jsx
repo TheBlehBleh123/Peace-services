@@ -116,6 +116,18 @@ export default function ServicePage({ onQuizOpen }) {
                 j % 2 === 1 ? <strong key={j} style={{ color: C.navy, fontWeight: 600 }}>{part}</strong> : part
               )}
             </div>
+            {/* Optional finished-job photo under a section (e.g. bird-proofing "after" shots while scrolling) */}
+            {section.photo && (
+              <figure style={{ margin: "32px 0 0" }}>
+                <img src={section.photo.src} alt={section.photo.alt} loading="lazy"
+                  style={{ width: "100%", height: "clamp(260px,52vw,440px)", objectFit: "cover", objectPosition: section.photo.position || "center", borderRadius: 24, display: "block" }} />
+                {section.photo.caption && (
+                  <figcaption style={{ fontSize: 14, fontWeight: 500, color: `${C.navy}99`, marginTop: 12, textAlign: "center" }}>
+                    {section.photo.caption}
+                  </figcaption>
+                )}
+              </figure>
+            )}
           </Reveal>
         ))}
       </div>
