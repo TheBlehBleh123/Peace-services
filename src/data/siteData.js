@@ -154,7 +154,7 @@ The problem? Bird nesting under solar panels causes serious damage:
 - **Health hazard**: bird droppings carry bacteria and fungi that become airborne
 
 Left unchecked, bird damage can cost thousands in solar panel repairs and roof damage. Bird proofing is a one-time investment that protects your solar system for years.`,
-        photo: { src: "/images/bird-proofing/mesh-clean-panels.jpg", position: "center 60%", alt: "Bird proofing mesh sealed around clean solar panels on a Coachella Valley home", caption: "Finished install: mesh sealed around the whole array, panels cleaned." }
+        photo: { src: "/images/bird-proofing/mesh-clean-panels.jpg", alt: "Bird proofing mesh sealed around clean solar panels on a Coachella Valley home", caption: "Finished install: mesh sealed around the whole array, panels cleaned." }
       },
       {
         heading: "Our Bird Proofing Installation Process",
@@ -168,7 +168,7 @@ Left unchecked, bird damage can cost thousands in solar panel repairs and roof d
 - Clean, low-profile finish that's virtually invisible from the ground
 
 Our critter guards are built to withstand the Coachella Valley's extreme temperatures, UV exposure, and wind. They come with a workmanship guarantee and typically last 10+ years without maintenance.`,
-        photo: { src: "/images/bird-proofing/mesh-panel-corner.jpg", position: "center 65%", alt: "Close-up of bird proofing mesh wrapped tight around a solar panel corner", caption: "Corners wrapped tight, so there is no gap for a pigeon to squeeze through." }
+        photo: { src: "/images/bird-proofing/mesh-panel-corner.jpg", alt: "Close-up of bird proofing mesh wrapped tight around a solar panel corner", caption: "Corners wrapped tight, so there is no gap for a pigeon to squeeze through." }
       },
       {
         heading: "Signs You Need Bird Proofing",
@@ -182,7 +182,7 @@ Our critter guards are built to withstand the Coachella Valley's extreme tempera
 - Stains on your roof or fascia boards below the panel array
 
 If you've noticed any of these signs, don't wait. Bird damage compounds quickly — the longer birds nest, the more damage they cause. We offer free inspections and can usually install bird proofing on the same visit as a solar panel cleaning.`,
-        photo: { src: "/images/bird-proofing/mesh-tile-roof.jpg", position: "center 22%", alt: "Bird proofing mesh installed on a tile roof under clean solar panels", caption: "Low-profile mesh on a tile roof. Clean panels, nothing nesting underneath." }
+        photo: { src: "/images/bird-proofing/mesh-long-run.jpg", alt: "Long run of bird proofing mesh sealing the gap under clean solar panels", caption: "Every edge sealed. Clean panels, nothing nesting underneath." }
       }
     ],
     faq: [

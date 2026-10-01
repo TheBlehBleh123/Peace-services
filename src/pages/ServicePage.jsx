@@ -120,7 +120,7 @@ export default function ServicePage({ onQuizOpen }) {
             {section.photo && (
               <figure style={{ margin: "32px 0 0" }}>
                 <img src={section.photo.src} alt={section.photo.alt} loading="lazy"
-                  style={{ width: "100%", height: "clamp(260px,52vw,440px)", objectFit: "cover", objectPosition: section.photo.position || "center", borderRadius: 24, display: "block" }} />
+                  style={{ width: "100%", maxWidth: 520, aspectRatio: "4 / 5", height: "auto", margin: "0 auto", objectFit: "cover", objectPosition: section.photo.position || "center", borderRadius: 24, display: "block" }} />
                 {section.photo.caption && (
                   <figcaption style={{ fontSize: 14, fontWeight: 500, color: `${C.navy}99`, marginTop: 12, textAlign: "center" }}>
                     {section.photo.caption}
